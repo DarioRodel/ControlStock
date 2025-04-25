@@ -1,8 +1,11 @@
+from django.conf.urls.static import static
 from django.urls import path
+
 from . import views
 from .views import ProductoListView, ReporteErrorView, CategoriaListView, CategoriaCreateView, ProductoDeleteView, \
     CategoriaUpdateView
-
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = 'stock'
 
 urlpatterns = [
@@ -19,3 +22,5 @@ urlpatterns = [
     path('categoria/<int:pk>/eliminar/', views.CategoriaDeleteView.as_view(), name='categoria_delete'),
     path('categoria/<int:pk>/editar/', CategoriaUpdateView.as_view(), name='categoria_edit'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

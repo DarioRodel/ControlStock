@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <title>Dashboard de Inventario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    {% load static %}
     <!-- Bootstrap CSS 5 -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../static/dark/css/darkmode.css">
+    <script src="../../static/dark/js/darkmode.js" defer></script>
+
+    <!-- Add Bootstrap JS here -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         :root {
@@ -23,24 +26,47 @@
             --background-color: #f4f7fb;
             --card-radius: 15px;
             --shadow-color: rgba(0, 0, 0, 0.1);
+
+            --card-bg: #fff;
+            --text-color: #333;
+
+            --card-hover: rgba(0, 0, 0, 0.15);
+            --badge-success: #28a745;
+            --badge-warning: #ffc107;
+            --badge-danger: #dc3545;
+        }
+
+        body[data-theme="dark"] {
+            --background-color: #121212;
+            --card-bg: #1e1e2f;
+            --text-color: #e0e0e0;
+            --shadow-color: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.1);
         }
 
         body {
             background-color: var(--background-color);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .metric-title, .metric-value {
+            color: var(--text-color);
         }
 
         .card-custom {
             border: none;
             border-radius: var(--card-radius);
             box-shadow: 0 4px 6px -1px var(--shadow-color);
-            background-color: #fff;
-            transition: transform 0.3s ease;
+            background-color: var(--card-bg);
+            transition: transform 0.3s ease, background-color 0.3s ease;
             overflow: hidden;
         }
 
         .card-custom:hover {
             transform: translateY(-5px);
+            background-color: var(--card-hover);
         }
 
         .card-body-custom {
@@ -54,7 +80,6 @@
 
         .metric-title {
             font-weight: 600;
-            color: #333;
         }
 
         .metric-value {
@@ -63,7 +88,7 @@
         }
 
         .chart-container {
-            background: white;
+            background: var(--card-bg);
             border-radius: var(--card-radius);
             padding: 20px;
             box-shadow: 0 4px 6px -1px var(--shadow-color);
@@ -86,29 +111,27 @@
             box-shadow: 0 4px 6px -1px var(--shadow-color);
         }
 
-        .badge-custom {
-            padding: 0.5em;
-            border-radius: 15px;
-            font-weight: 600;
-            color: #fff;
-        }
+        .badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
 
-        .entrada {
-            background: var(--primary-color);
-        }
+.bg-entrada { background-color: #28a745; }
+.bg-salida { background-color: #dc3545; }
+.bg-ajuste { background-color: #ffc107; }
+.bg-traspaso { background-color: #0dcaf0; }
 
-        .salida {
-            background: var(--danger-color);
-        }
-
-        .ajuste {
-            background: var(--secondary-color);
-        }
     </style>
 </head>
 <body>
 {% load humanize %}
 <div class="container py-4">
+    <div class="form-check form-switch ms-auto mb-3">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
+    </div>
+
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold text-dark mb-0">
@@ -143,15 +166,7 @@
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <div class="card-custom" style="background-color: #FF9800;"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="top"
-                 title="
-
-
-
-
-                         {% for producto in productos_bajo_stock %}{{ producto.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+            <div class="card-custom" style="background-color: #FF9800;">
                 <div class="card-body-custom d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="metric-title text-dark">Stock Crítico</h5>
@@ -175,24 +190,17 @@
         </div>
     </div>
 
-    <!-- Gráficos y Tabla -->
+    <!-- Gráfico de Inventario -->
     <div class="row g-4">
-        <div class="col-12 col-md-6">
+        <div class="col-lg-6 col-md-12">
             <div class="chart-container">
-                <h4 class="mb-4">Distribución de Stock por Categoría</h4>
+                <h5 class="text-center">Distribución del Stock por Categoría</h5>
                 <canvas id="stockChart"></canvas>
             </div>
         </div>
 
-        <div class="col-12 col-md-6">
-            <div class="chart-container">
-                <h4 class="mb-4">Histórico de Movimientos de Stock</h4>
-                <canvas id="historicoChart"></canvas>
-            </div>
-        </div>
-
         <!-- Alertas de Stock Bajo -->
-        <div class="alertas-stock-bajo mt-4">
+        <div class="col-lg-6 col-md-12 mt-4">
             <h5>Alertas de Stock Bajo</h5>
             {% if productos_bajo_stock %}
                 <ul class="list-group">
@@ -209,7 +217,10 @@
                 </div>
             {% endif %}
         </div>
+    </div>
 
+    <!-- Tabla de Movimientos -->
+    <div class="row g-4">
         <div class="col-12">
             <div class="table-responsive-custom">
                 <h4 class="px-4 pt-4">Últimos Movimientos</h4>
@@ -228,7 +239,7 @@
                             <tr>
                                 <td>{{ movimiento.producto.nombre|truncatechars:15 }}</td>
                                 <td>
-                                        <span class="badge-custom {{ movimiento.tipo|lower }}">
+                                        <span class="badge bg-{{ movimiento.tipo|lower }} text-white">
                                             {{ movimiento.get_tipo_display }}
                                         </span>
                                 </td>
@@ -247,121 +258,47 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="d-flex gap-3 mt-4">
-            <a href="{% url 'stock:producto_list' %}" class="btn btn-outline-secondary btn-dashboard">
-                <i class="fas fa-box me-2"></i>Ver Productos
-            </a>
-            <a href="{% url 'stock:producto_create' %}" class="btn btn-success btn-dashboard">
-                <i class="fas fa-plus-circle me-2"></i>Nuevo Producto
-            </a>
-            <a href="{% url 'stock:categoria_list' %}" class="btn btn-info btn-dashboard">
-                <i class="fas fa-tags me-2"></i>Ver Categorías
-            </a>
-            <a href="{% url 'stock:categoria_create' %}" class="btn btn-warning btn-dashboard">
-                <i class="fas fa-tags me-2"></i>Añadir Categorías
-            </a>
-            <a href="{% url 'stock:reportar_error' %}" class="btn btn-danger btn-dashboard">
-                <i class="fas fa-file-export me-2"></i>Reporte
-            </a>
-        </div>
+    <div class="d-flex gap-3 mt-4">
+        <a href="{% url 'stock:producto_list' %}" class="btn btn-outline-secondary btn-dashboard">
+            <i class="fas fa-box me-2"></i>Ver Productos
+        </a>
+        <a href="{% url 'stock:producto_create' %}" class="btn btn-success btn-dashboard">
+            <i class="fas fa-plus-circle me-2"></i>Nuevo Producto
+        </a>
+        <a href="{% url 'stock:categoria_list' %}" class="btn btn-info btn-dashboard">
+            <i class="fas fa-tags me-2"></i>Ver Categorías
+        </a>
+        <a href="{% url 'stock:categoria_create' %}" class="btn btn-warning btn-dashboard">
+            <i class="fas fa-tags me-2"></i>Añadir Categorías
+        </a>
+        <a href="{% url 'stock:reportar_error' %}" class="btn btn-danger btn-dashboard">
+            <i class="fas fa-file-export me-2"></i>Reporte
+        </a>
     </div>
 </div>
 
 <script>
-    // Gráfico de distribución por categoría
+
+
+    // Gráfico de Stock
     const ctx = document.getElementById('stockChart').getContext('2d');
-    const categories = {{ categorias_data|safe }};
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
     new Chart(ctx, {
-        type: 'doughnut',
+        type: 'pie',
         data: {
-            labels: categories.map(c => c.nombre),
+            labels: ['Categoría 1', 'Categoría 2', 'Categoría 3'],  // Reemplazar con las categorías
             datasets: [{
-                data: categories.map(c => c.total_stock),
-                backgroundColor: categories.map(c => c.color || '#4F46E5'),  // Usamos color por categoría
-                borderWidth: 0,
+                data: [300, 50, 100],  // Reemplazar con los valores de stock
+                backgroundColor: ['#2196F3', '#FF9800', '#4CAF50'],
+                borderColor: '#fff',
+                borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
-            plugins: {
-                legend: {position: 'right'},
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return `${context.label}: ${context.raw} unidades`;
-                        }
-                    }
-                }
-            }
+            responsive: true
         }
     });
-
-    // Gráfico histórico de movimientos
-    const historicoCtx = document.getElementById('historicoChart').getContext('2d');
-    new Chart(historicoCtx, {
-        type: 'line',
-        data: {
-            labels: {{ historico_data.labels|safe }},
-            datasets: [
-                {
-                    label: 'Entradas',
-                    data: {{ historico_data.entradas|safe }},
-                    borderColor: '#4CAF50',
-                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
-                    tension: 0.3,
-                    fill: true
-                },
-                {
-                    label: 'Salidas',
-                    data: {{ historico_data.salidas|safe }},
-                    borderColor: '#f44336',
-                    backgroundColor: 'rgba(244, 67, 54, 0.2)',
-                    tension: 0.3,
-                    fill: true
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Movimientos por Mes'
-                },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false
-                }
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Meses'
-                    },
-                    grid: {
-                        display: false
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Cantidad'
-                    },
-                    beginAtZero: true,
-                    grid: {
-                        color: '#f0f0f0'
-                    }
-                }
-            }
-        }
-    });
-
 </script>
 </body>
 </html>

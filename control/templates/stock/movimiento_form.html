@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,6 +12,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script src="../../static/dark/js/darkmode.js" defer></script>
+
     <style>
         .container { max-width: 800px; margin: 40px auto; }
         .form-control:focus { box-shadow: 0 0 5px rgba(13, 110, 253, 0.25); }
@@ -19,76 +22,50 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="mb-4">
-            <i class="fas fa-exchange-alt"></i>
-            Registrar Movimiento de Stock
-        </h2>
 
-        {% if messages %}
-        <div class="mb-4">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+<h4><i class="fas fa-history"></i> Últimos Movimientos de Stock</h4>
+
+<div class="table-responsive mt-3">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Producto</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Fecha</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mov in ultimos_movimientos %}
+            <tr>
+                <td>{{ mov.producto.nombre }}</td>
+                <td>
+                    {% if mov.tipo == 'ENTRADA' %}
+                        <span class="badge bg-success">Entrada</span>
+                    {% elif mov.tipo == 'SALIDA' %}
+                        <span class="badge bg-danger">Salida</span>
+                    {% elif mov.tipo == 'TRASPASO' %}
+                        <span class="badge bg-warning text-dark">Traspaso</span>
+                    {% endif %}
+                </td>
+                <td>{{ mov.cantidad }}</td>
+                <td>{{ mov.ubicacion_origen|default:"-" }}</td>
+                <td>{{ mov.ubicacion_destino|default:"-" }}</td>
+                <td>{{ mov.fecha|date:"d M Y H:i" }}</td>
+                <td>{{ mov.usuario.username }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center text-muted">No hay movimientos registrados aún.</td>
+            </tr>
             {% endfor %}
-        </div>
-        {% endif %}
+        </tbody>
+    </table>
+</div>
 
-        <form method="post" class="border p-4 rounded-3 bg-light">
-            {% csrf_token %}
-
-            <div class="row g-3">
-                <!-- Columna Izquierda -->
-                <div class="col-md-6">
-                    <div class="mb-3 required">
-                        {{ form.producto.label_tag }}
-                        {{ form.producto }}
-                    </div>
-
-                    <div class="mb-3 required">
-                        {{ form.tipo.label_tag }}
-                        {{ form.tipo }}
-                    </div>
-
-                    <div class="mb-3 required">
-                        {{ form.cantidad.label_tag }}
-                        {{ form.cantidad }}
-                        <div class="stock-info mt-1">
-                            Stock actual: <span id="stock-actual">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha -->
-                <div class="col-md-6">
-                    <div class="ubicacion-origen mb-3">
-                        {{ form.ubicacion_origen.label_tag }}
-                        {{ form.ubicacion_origen }}
-                    </div>
-
-                    <div class="ubicacion-destino mb-3">
-                        {{ form.ubicacion_destino.label_tag }}
-                        {{ form.ubicacion_destino }}
-                    </div>
-
-                    <div class="mb-3">
-                        {{ form.observaciones.label_tag }}
-                        {{ form.observaciones }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-4 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
-                <a href="{% url 'producto_list' %}" class="btn btn-secondary">
-                    <i class="fas fa-times"></i> Cancelar
-                </a>
-            </div>
-        </form>
     </div>
 
     <!-- Bootstrap JS y dependencias -->

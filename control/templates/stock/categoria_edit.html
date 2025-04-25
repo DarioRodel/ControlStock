@@ -5,8 +5,15 @@
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../../static/dark/css/darkmode.css">
+<script src="../../static/dark/js/darkmode.js" defer></script>
+
 {% block content %}
     <div class="container py-5">
+        <div class="form-check form-switch ms-auto mb-3">
+            <input class="form-check-input" type="checkbox" id="darkModeToggle">
+            <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
+        </div>
         <h2 class="fw-bold text-primary mb-4 text-center">Editar Categoría</h2>
         <div class="card border-0 shadow-sm">
             <div class="card-body">
@@ -14,12 +21,14 @@
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="id_nombre" class="form-label">Nombre de la categoría</label>
-                        <input type="text" name="nombre" class="form-control" id="id_nombre" value="{{ categoria.nombre }}" required>
+                        <input type="text" name="nombre" class="form-control" id="id_nombre"
+                               value="{{ categoria.nombre }}" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="id_color" class="form-label">Color de la categoría</label>
-                        <input type="color" name="color" class="form-control form-control-color" id="id_color" value="{{ categoria.color }}" required>
+                        <input type="color" name="color" class="form-control form-control-color" id="id_color"
+                               value="{{ categoria.color }}" required>
                     </div>
 
                     <div class="d-flex justify-content-center gap-3">
@@ -35,3 +44,232 @@
         </div>
     </div>
 {% endblock %}
+<script>
+    // Dark Mode Toggle
+    const toggle = document.getElementById('darkModeToggle');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+        if (toggle.checked) {
+            document.body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+</script>
+<style>
+    /* Tema oscuro */
+    body[data-theme="dark"] {
+        --background-color: #121212;
+        --card-bg: #1e1e2f;
+        --text-color: #e0e0e0;
+        --input-bg: #2d2d2d;
+        --input-border: #404040;
+        --placeholder-color: #a0aec0;
+    }
+
+    body[data-theme="dark"] .card {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+    }
+
+    body[data-theme="dark"] .form-control {
+        background-color: var(--input-bg);
+        color: var(--text-color);
+        border: 2px solid var(--input-border);
+    }
+
+    body[data-theme="dark"] .form-control::placeholder {
+        color: var(--placeholder-color);
+    }
+
+    body[data-theme="dark"] .form-label {
+        color: var(--text-color);
+    }
+
+    body[data-theme="dark"] .btn-success {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    body[data-theme="dark"] .btn-success:hover {
+        background-color: #45a049;
+        border-color: #45a049;
+    }
+
+    body[data-theme="dark"] .btn-light {
+        background-color: #2d2d2d;
+        color: #fff;
+        border-color: #404040;
+    }
+
+    body[data-theme="dark"] .btn-light:hover {
+        background-color: #3d3d3d;
+        border-color: #505050;
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--input-border);
+        box-shadow: 0 4px 6px -1px var(--shadow-color);
+    }
+
+    .btn-light {
+        background-color: var(--card-bg);
+        border: 2px solid var(--input-border);
+        color: var(--text-color);
+    }
+
+    .btn-light:hover {
+        background-color: var(--card-hover);
+        border-color: var(--input-border);
+    }
+
+    .text-primary {
+        color: var(--primary-color) !important;
+    }
+
+    :root {
+        --primary-color: #4CAF50;
+        --secondary-color: #2196F3;
+        --accent-color: #FF9800;
+        --danger-color: #f44336;
+        --background-color: #f4f7fb;
+        --card-radius: 8px;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --card-bg: #ffffff;
+        --text-color: #2d3748;
+        --card-hover: rgba(0, 0, 0, 0.03);
+        --light-bg: #f8f9fa;
+        --success-bg: #d1e7dd;
+        --warning-bg: #fff3cd;
+        --danger-bg: #f8d7da;
+        --input-bg: #ffffff;
+        --input-border: #e2e8f0;
+        --placeholder-color: #94a3b8;
+        --table-header-bg: #f8f9fa;
+        --table-border: #e9ecef;
+    }
+
+
+    body[data-theme="dark"] {
+        --background-color: #121212;
+        --card-bg: #1e1e2f;
+        --text-color: #e0e0e0;
+        --shadow-color: rgba(255, 255, 255, 0.05);
+        --card-hover: rgba(255, 255, 255, 0.08);
+        --light-bg: #2d2d2d;
+        --success-bg: #1a3a2e;
+        --warning-bg: #4d3d17;
+        --danger-bg: #4a2527;
+        --input-bg: #2d2d2d;
+        --input-border: #3d3d3d;
+        --placeholder-color: #a0aec0;
+        --table-header-bg: #2d2d2d;
+        --table-border: #404040;
+    }
+
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--shadow-color);
+        box-shadow: 0 4px 6px -1px var(--shadow-color);
+        transition: background-color 0.3s;
+    }
+
+    .form-control {
+        background-color: var(--input-bg) !important;
+        color: var(--text-color) !important;
+        border: 2px solid var(--input-border) !important;
+        transition: all 0.3s ease;
+    }
+
+    .form-control::placeholder {
+        color: var(--placeholder-color) !important;
+        opacity: 0.8;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2) !important;
+    }
+
+    .form-label {
+        color: var(--text-color);
+    }
+
+    :root {
+        --primary-color: #4CAF50;
+        --secondary-color: #2196F3;
+        --background-color: #f8f9fa;
+        --card-bg: #ffffff;
+        --text-color: #212529;
+        --input-border: #dee2e6;
+        --hover-bg: #f8f9fa;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
+    body[data-theme="dark"] {
+        --background-color: #1a1a1a;
+        --card-bg: #2d2d2d;
+        --text-color: #e0e0e0;
+        --input-border: #404040;
+        --hover-bg: #3d3d3d;
+        --shadow-color: rgba(255, 255, 255, 0.05);
+    }
+
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--input-border);
+    }
+
+
+    .btn-success {
+        background: linear-gradient(135deg, rgba(32, 201, 151, 0.9), rgba(25, 135, 84, 0.9));
+        border: none;
+    }
+
+
+    .table-hover tbody tr:hover {
+        --bs-table-accent-bg: var(--card-hover);
+        color: var(--text-color);
+    }
+
+    .table-borderless thead th {
+        border-bottom: 2px solid var(--table-border) !important;
+    }
+
+    /* Estilos para las celdas */
+    .table td, .table th {
+        vertical-align: middle;
+        padding: 1rem;
+        background-color: var(--card-bg);
+    }
+
+
+    /* Ajustes para dispositivos móviles */
+    @media (max-width: 768px) {
+
+        .table td, .table th {
+            padding: 0.75rem;
+        }
+    }
+</style>

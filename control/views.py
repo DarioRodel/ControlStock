@@ -1,8 +1,8 @@
-from django.shortcuts import  redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.db.models import  Q
+from django.db.models import Q
 from .models import Producto, Categoria, MovimientoStock
 from .forms import ProductoForm
 from django.views.generic.edit import FormView
@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, F
 from django.db.models.functions import TruncMonth
 from django.views.generic.edit import DeleteView
+
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'stock/dashboard.html'
@@ -23,7 +24,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         productos = Producto.objects.all()
 
         # Obtener los últimos 10 movimientos de stock, relacionados con productos y usuarios
-        movimientos_recientes = MovimientoStock.objects.select_related('producto', 'usuario').order_by('-fecha')[:10]
+        movimientos = MovimientoStock.objects.select_related('producto', 'usuario').order_by('-fecha')[:10]
 
         # Contar el total de productos y categorías
         total_productos = productos.count()
@@ -84,12 +85,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'total_categorias': total_categorias,
             'valor_inventario': valor_total_inventario,
             'productos_bajo_stock': productos_bajo_stock,
-            'movimientos': movimientos_recientes,
+            'movimientos': movimientos,
             'categorias_data': categorias_data,
             'historico_data': historico_data,
         })
 
         return context
+
 
 
 # Vistas para Productos
@@ -128,7 +130,6 @@ class ProductoListView(LoginRequiredMixin, ListView):
         return context
 
 
-
 class ProductoDetailView(LoginRequiredMixin, DetailView):
     model = Producto
     template_name = 'stock/producto_detail.html'
@@ -159,7 +160,6 @@ class ProductoCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-
 class ProductoUpdateView(LoginRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
@@ -174,6 +174,7 @@ class ProductoUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['fields'] = ['codigo', 'nombre', 'precio_compra', 'precio_venta']
         return context
+
 
 class MovimientoStockCreateView(LoginRequiredMixin, CreateView):
     model = MovimientoStock
@@ -207,6 +208,12 @@ class MovimientoStockCreateView(LoginRequiredMixin, CreateView):
 
         return redirect('producto_detail', pk=producto.pk)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Eliminamos la consulta de los últimos movimientos en esta vista
+        return context
+
+
 class ReporteErrorView(FormView):
     template_name = 'stock/reportar_error.html'
     form_class = ReporteErrorForm
@@ -224,6 +231,7 @@ class ReporteErrorView(FormView):
         messages.error(self.request, "Hay errores en el formulario. Por favor revísalo.")
         return super().form_invalid(form)
 
+
 class ProductoDeleteView(LoginRequiredMixin, DeleteView):
     model = Producto
     template_name = 'stock/producto_delete.html'  # Plantilla que confirmará la eliminación
@@ -232,6 +240,8 @@ class ProductoDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Producto eliminado correctamente.')
         return super().delete(request, *args, **kwargs)
+
+
 class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
     model = Categoria
     template_name = 'stock/categoria_delete.html'  # Plantilla para la confirmación de eliminación
@@ -241,10 +251,13 @@ class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
         # Añadir mensaje de éxito
         messages.success(self.request, 'Categoría eliminada correctamente.')
         return super().delete(request, *args, **kwargs)
+
+
 class CategoriaListView(ListView):
     model = Categoria
     template_name = 'stock/categoria_list.html'
     context_object_name = 'categorias'
+
 
 class CategoriaCreateView(CreateView):
     model = Categoria
