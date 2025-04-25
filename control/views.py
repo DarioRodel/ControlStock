@@ -150,10 +150,20 @@ class ProductoCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('stock:producto_list')  # ✅ Agregamos esto
 
     def form_valid(self, form):
-        form.instance.creado_por = self.request.user
-        messages.success(self.request, 'Producto guardado correctamente.')
-        return super().form_valid(form)  # ✅ Usamos el método base, que maneja el redirect automáticamente
+        # Guardar el producto primero
+        response = super().form_valid(form)
 
+        # Crear movimiento de stock inicial
+        MovimientoStock.objects.create(
+            producto=self.object,
+            tipo='ENTRADA',
+            cantidad=self.object.stock_actual,
+            usuario=self.request.user,
+            observaciones='Stock inicial'
+        )
+
+        messages.success(self.request, 'Producto creado y movimiento registrado correctamente.')
+        return response
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['fields'] = ['codigo', 'nombre', 'precio_compra', 'precio_venta']
