@@ -1,11 +1,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="../../static/dark/css/darkmode.css">
 <script src="../../static/dark/js/darkmode.js" defer></script>
 
 {% block content %}
@@ -45,97 +40,114 @@
     </div>
 {% endblock %}
 <script>
-    // Dark Mode Toggle
-    const toggle = document.getElementById('darkModeToggle');
-    const currentTheme = localStorage.getItem('theme');
+    // Dark Mode Toggle - Código Javascript para controlar el modo oscuro
+    const toggle = document.getElementById('darkModeToggle'); // Obtiene el elemento checkbox con el ID 'darkModeToggle'
+    const currentTheme = localStorage.getItem('theme'); // Intenta obtener el tema guardado previamente en el almacenamiento local del navegador
 
+    // Si se encontró un tema guardado y es 'dark', aplica el modo oscuro al cargar la página
     if (currentTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-        toggle.checked = true;
+        document.body.setAttribute('data-theme', 'dark'); // Establece el atributo 'data-theme' en el elemento 'body' para activar los estilos del tema oscuro definidos en CSS
+        toggle.checked = true; // Marca el checkbox del modo oscuro como activado
     }
 
+    // Agrega un 'listener' para el evento 'change' en el checkbox del modo oscuro
     toggle.addEventListener('change', () => {
         if (toggle.checked) {
-            document.body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
+            // Si el checkbox se activa (el usuario quiere modo oscuro)
+            document.body.setAttribute('data-theme', 'dark'); // Establece el atributo 'data-theme'
+            localStorage.setItem('theme', 'dark'); // Guarda la preferencia 'dark' en el almacenamiento local
         } else {
-            document.body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'light');
+            // Si el checkbox se desactiva (el usuario quiere modo claro)
+            document.body.removeAttribute('data-theme'); // Remueve el atributo 'data-theme'
+            localStorage.setItem('theme', 'light'); // Guarda la preferencia 'light' en el almacenamiento local
         }
     });
 </script>
 <style>
-    /* Tema oscuro */
+    /* Tema oscuro - Estilos específicos para cuando el body tiene el atributo data-theme="dark" */
     body[data-theme="dark"] {
-        --background-color: #121212;
-        --card-bg: #1e1e2f;
-        --text-color: #e0e0e0;
-        --input-bg: #2d2d2d;
-        --input-border: #404040;
-        --placeholder-color: #a0aec0;
+        --background-color: #121212; /* Fondo oscuro para el body */
+        --card-bg: #1e1e2f; /* Fondo oscuro para las tarjetas */
+        --text-color: #e0e0e0; /* Color del texto claro */
+        --input-bg: #2d2d2d; /* Fondo oscuro para los campos de formulario */
+        --input-border: #404040; /* Borde oscuro para los campos de formulario */
+        --placeholder-color: #a0aec0; /* Color del texto de ejemplo claro en los campos */
     }
 
+    /* Estilos para las tarjetas en modo oscuro */
     body[data-theme="dark"] .card {
-        background-color: var(--card-bg);
-        color: var(--text-color);
+        background-color: var(--card-bg); /* Usa la variable de fondo oscuro para la tarjeta */
+        color: var(--text-color); /* Usa la variable de texto claro para la tarjeta */
     }
 
+    /* Estilos para los campos de formulario en modo oscuro */
     body[data-theme="dark"] .form-control {
-        background-color: var(--input-bg);
-        color: var(--text-color);
-        border: 2px solid var(--input-border);
+        background-color: var(--input-bg); /* Usa la variable de fondo oscuro para los inputs */
+        color: var(--text-color); /* Usa la variable de texto claro para los inputs */
+        border: 2px solid var(--input-border); /* Usa la variable de borde oscuro para los inputs */
     }
 
+    /* Estilos para el texto de ejemplo en los campos de formulario en modo oscuro */
     body[data-theme="dark"] .form-control::placeholder {
-        color: var(--placeholder-color);
+        color: var(--placeholder-color); /* Usa la variable de color de placeholder claro */
     }
 
+    /* Estilos para las etiquetas de los formularios en modo oscuro */
     body[data-theme="dark"] .form-label {
-        color: var(--text-color);
+        color: var(--text-color); /* Usa la variable de texto claro para las etiquetas */
     }
 
+    /* Estilos para el botón de éxito (Guardar cambios) en modo oscuro */
     body[data-theme="dark"] .btn-success {
-        background-color: #4CAF50;
-        border-color: #4CAF50;
+        background-color: #4CAF50; /* Mantiene el color verde */
+        border-color: #4CAF50; /* Mantiene el color del borde verde */
     }
 
+    /* Estilos al pasar el ratón sobre el botón de éxito en modo oscuro */
     body[data-theme="dark"] .btn-success:hover {
-        background-color: #45a049;
-        border-color: #45a049;
+        background-color: #45a049; /* Un tono de verde más oscuro al pasar el ratón */
+        border-color: #45a049; /* Un tono de borde verde más oscuro al pasar el ratón */
     }
 
+    /* Estilos para el botón claro (Cancelar) en modo oscuro */
     body[data-theme="dark"] .btn-light {
-        background-color: #2d2d2d;
-        color: #fff;
-        border-color: #404040;
+        background-color: #2d2d2d; /* Fondo gris oscuro */
+        color: #fff; /* Texto blanco */
+        border-color: #404040; /* Borde gris oscuro */
     }
 
+    /* Estilos al pasar el ratón sobre el botón claro en modo oscuro */
     body[data-theme="dark"] .btn-light:hover {
-        background-color: #3d3d3d;
-        border-color: #505050;
+        background-color: #3d3d3d; /* Fondo gris más oscuro al pasar el ratón */
+        border-color: #505050; /* Borde gris más oscuro al pasar el ratón */
     }
 
+    /* Estilos generales para la tarjeta */
     .card {
-        background-color: var(--card-bg);
-        border: 1px solid var(--input-border);
-        box-shadow: 0 4px 6px -1px var(--shadow-color);
+        background-color: var(--card-bg); /* Usa la variable para el color de fondo de la tarjeta (se adapta al tema) */
+        border: 1px solid var(--input-border); /* Usa la variable para el color del borde de los inputs (se adapta al tema) */
+        box-shadow: 0 4px 6px -1px var(--shadow-color); /* Usa la variable para el color de la sombra (se adapta al tema) */
     }
 
+    /* Estilos generales para el botón claro (Cancelar) */
     .btn-light {
-        background-color: var(--card-bg);
-        border: 2px solid var(--input-border);
-        color: var(--text-color);
+        background-color: var(--card-bg); /* Usa la variable para el color de fondo de la tarjeta (se adapta al tema) */
+        border: 2px solid var(--input-border); /* Usa la variable para el color del borde de los inputs (se adapta al tema) */
+        color: var(--text-color); /* Usa la variable para el color del texto (se adapta al tema) */
     }
 
+    /* Estilos al pasar el ratón sobre el botón claro */
     .btn-light:hover {
-        background-color: var(--card-hover);
-        border-color: var(--input-border);
+        background-color: var(--card-hover); /* Usa la variable para el color de fondo al pasar el ratón (se adapta al tema) */
+        border-color: var(--input-border); /* Mantiene el color del borde */
     }
 
+    /* Estilo para el texto primario (Editar Categoría) */
     .text-primary {
-        color: var(--primary-color) !important;
+        color: var(--primary-color) !important; /* Usa la variable para el color primario (verde) y fuerza la aplicación */
     }
 
+    /* Definición de variables CSS para el tema claro (duplicado de la sección :root anterior) */
     :root {
         --primary-color: #4CAF50;
         --secondary-color: #2196F3;
@@ -159,6 +171,7 @@
     }
 
 
+    /* Estilos específicos para el tema oscuro (duplicado de la sección body[data-theme="dark"] anterior) */
     body[data-theme="dark"] {
         --background-color: #121212;
         --card-bg: #1e1e2f;
@@ -176,12 +189,14 @@
         --table-border: #404040;
     }
 
+    /* Estilos generales para el body (duplicado de la sección body anterior) */
     body {
         background-color: var(--background-color);
         color: var(--text-color);
         transition: background-color 0.3s, color 0.3s;
     }
 
+    /* Re-estilo de la tarjeta (duplicado de la sección .card anterior) */
     .card {
         background-color: var(--card-bg);
         border: 1px solid var(--shadow-color);
@@ -189,6 +204,7 @@
         transition: background-color 0.3s;
     }
 
+    /* Estilos para los campos de formulario (duplicado de una sección anterior) */
     .form-control {
         background-color: var(--input-bg) !important;
         color: var(--text-color) !important;
@@ -196,20 +212,24 @@
         transition: all 0.3s ease;
     }
 
+    /* Estilos para el placeholder de los campos de formulario (duplicado) */
     .form-control::placeholder {
         color: var(--placeholder-color) !important;
         opacity: 0.8;
     }
 
+    /* Estilos para el foco de los campos de formulario y select */
     .form-control:focus, .form-select:focus {
         border-color: var(--primary-color) !important;
         box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2) !important;
     }
 
+    /* Estilos para las etiquetas de los formularios (duplicado) */
     .form-label {
         color: var(--text-color);
     }
 
+    /* Repetición de la definición de variables CSS (duplicado) */
     :root {
         --primary-color: #4CAF50;
         --secondary-color: #2196F3;
@@ -221,6 +241,7 @@
         --shadow-color: rgba(0, 0, 0, 0.1);
     }
 
+    /* Repetición de los estilos para el modo oscuro (duplicado) */
     body[data-theme="dark"] {
         --background-color: #1a1a1a;
         --card-bg: #2d2d2d;
@@ -230,34 +251,39 @@
         --shadow-color: rgba(255, 255, 255, 0.05);
     }
 
+    /* Repetición de los estilos generales del body (duplicado) */
     body {
         background-color: var(--background-color);
         color: var(--text-color);
         transition: all 0.3s ease;
     }
 
+    /* Re-estilo de la tarjeta (duplicado) */
     .card {
         background-color: var(--card-bg);
         border: 1px solid var(--input-border);
     }
 
 
+    /* Estilos para el botón de éxito (Guardar cambios) */
     .btn-success {
-        background: linear-gradient(135deg, rgba(32, 201, 151, 0.9), rgba(25, 135, 84, 0.9));
-        border: none;
+        background: linear-gradient(135deg, rgba(32, 201, 151, 0.9), rgba(25, 135, 84, 0.9)); /* Degradado verde */
+        border: none; /* Sin borde */
     }
 
 
+    /* Estilos para las filas de la tabla al pasar el ratón (no se usa directamente aquí) */
     .table-hover tbody tr:hover {
         --bs-table-accent-bg: var(--card-hover);
         color: var(--text-color);
     }
 
+    /* Estilo para el borde inferior del encabezado de tablas sin bordes (no se usa directamente aquí) */
     .table-borderless thead th {
         border-bottom: 2px solid var(--table-border) !important;
     }
 
-    /* Estilos para las celdas */
+    /* Estilos para las celdas de la tabla (no se usa directamente aquí) */
     .table td, .table th {
         vertical-align: middle;
         padding: 1rem;
@@ -265,7 +291,7 @@
     }
 
 
-    /* Ajustes para dispositivos móviles */
+    /* Ajustes para dispositivos móviles en tablas (no se usa directamente aquí) */
     @media (max-width: 768px) {
 
         .table td, .table th {
