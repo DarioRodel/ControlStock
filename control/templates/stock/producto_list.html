@@ -2,6 +2,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="{% static 'dark/js/darkmode.js' %}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 
 <div class="container py-4">
     <div class="form-check form-switch ms-auto mb-3">
@@ -94,7 +95,11 @@
                                 </div>
                             {% endif %}
                         </td>
-                        <td class="fw-semibold">{{ producto.codigo }}</td>
+                        <td>
+                            {{ producto.codigo_barras }}
+
+                        </td>
+
                         <td>{{ producto.nombre }}</td>
                         <td>
                                 <span class="badge bg-secondary-subtle text-dark px-3 py-2 rounded-pill">
@@ -430,4 +435,10 @@
     // Inicializar tooltips de Bootstrap
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    // Generar los códigos de barras después de que se cargue el contenido
+    window.addEventListener('DOMContentLoaded', () => {
+        JsBarcode(".barcode").init();
+    });
+
 </script>

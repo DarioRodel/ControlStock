@@ -2,205 +2,119 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard de Inventario</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Dashboard de Inventario</title>
 
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="../../static/dark/js/darkmode.js" defer></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/dark/js/darkmode.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* Definición de variables CSS para el tema claro (por defecto) */
         :root {
-            --primary-color: #4CAF50; /* Color primario (verde) */
-            --secondary-color: #2196F3; /* Color secundario (azul) */
-            --accent-color: #FF9800; /* Color de acento (naranja) */
-            --danger-color: #f44336; /* Color para acciones peligrosas (rojo) */
-            --background-color: #f4f7fb; /* Color de fondo general (gris claro) */
-            --card-radius: 15px; /* Radio de las esquinas de las tarjetas */
-            --shadow-color: rgba(0, 0, 0, 0.1); /* Color de la sombra (negro con baja opacidad) */
-
-            --card-bg: #fff; /* Color de fondo de las tarjetas (blanco) */
-            --text-color: #333; /* Color del texto principal (gris oscuro) */
-
-            --card-hover: rgba(0, 0, 0, 0.15); /* Color de fondo al pasar el ratón sobre las tarjetas (gris oscuro con baja opacidad) */
-            --badge-success: #28a745; /* Color de fondo para insignias de éxito (verde) */
-            --badge-warning: #ffc107; /* Color de fondo para insignias de advertencia (amarillo) */
-            --badge-danger: #dc3545; /* Color de fondo para insignias de peligro (rojo) */
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --accent-color: #FF9800;
+            --danger-color: #f44336;
+            --background-color: #f4f7fb;
+            --card-radius: 20px;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #fff;
+            --text-color: #333;
+            --card-hover: rgba(0, 0, 0, 0.1);
+            --badge-success: #28a745;
+            --badge-warning: #ffc107;
+            --badge-danger: #dc3545;
         }
 
-        /* Estilos para el tema oscuro (cuando el body tiene el atributo data-theme="dark") */
         body[data-theme="dark"] {
-            --background-color: #0d1117; /* Color de fondo oscuro (gris muy oscuro) */
-            --card-bg: #161b22; /* Color de fondo oscuro para las tarjetas (gris oscuro) */
-            --text-color: #c9d1d9; /* Color del texto claro (gris claro) */
-            --shadow-color: rgba(255, 255, 255, 0.05); /* Color de la sombra claro (blanco con baja opacidad) */
-            --card-hover: rgba(255, 255, 255, 0.05); /* Color de fondo claro al pasar el ratón (blanco con baja opacidad) */
-            --light-bg: #21262d; /* Otro color de fondo oscuro (gris más oscuro) */
-            --success-bg: #1f6f3f; /* Color de fondo oscuro para éxito (verde oscuro) */
-            --warning-bg: #a07917; /* Color de fondo oscuro para advertencia (amarillo oscuro) */
-            --danger-bg: #a0333b; /* Color de fondo oscuro para peligro (rojo oscuro) */
-            --input-bg: #21262d; /* Color de fondo oscuro para inputs (gris más oscuro) */
-            --input-border: #30363d; /* Color del borde oscuro para inputs (gris oscuro) */
-            --placeholder-color: #8b949e; /* Color del placeholder claro (gris medio) */
-            --primary-color: #58a6ff; /* Color primario claro (azul claro) */
-            --secondary-color: #6e7681; /* Color secundario claro (gris medio) */
-            --accent-color: #f78166; /* Color de acento claro (naranja claro) */
-            --danger-color: #ff7b72; /* Color de peligro claro (rojo claro) */
-            --card-radius: 12px; /* Radio de las esquinas de las tarjetas en modo oscuro */
-            --table-header-bg: #21262d; /* Color de fondo oscuro para el encabezado de la tabla */
-            --table-border: #30363d; /* Color del borde oscuro para la tabla */
+            --background-color: #0d1117;
+            --card-bg: #161b22;
+            --text-color: #c9d1d9;
+            --shadow-color: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.05);
+            --primary-color: #58a6ff;
+            --secondary-color: #6e7681;
+            --accent-color: #f78166;
+            --danger-color: #ff7b72;
         }
 
-        /* Body - Estilos generales para el elemento body */
         body {
-            background-color: var(--background-color); /* Usa la variable para el color de fondo */
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; /* Fuente de letra */
-            color: var(--text-color); /* Usa la variable para el color del texto */
-            transition: background-color 0.3s, color 0.3s; /* Transición suave para los cambios de color de fondo y texto */
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Estilos para los títulos de las métricas y los valores */
-        .metric-title, .metric-value {
-            color: var(--text-color); /* Usa la variable para el color del texto */
-        }
-
-        /* Tarjetas de Métricas - Estilos para las tarjetas que muestran los datos principales */
         .card-custom {
-            border: none; /* Elimina el borde predeterminado de la tarjeta */
-            border-radius: var(--card-radius); /* Usa la variable para el radio de las esquinas */
-            box-shadow: 0 4px 6px -1px var(--shadow-color); /* Usa la variable para la sombra */
-            background-color: var(--card-bg); /* Usa la variable para el color de fondo */
-            transition: transform 0.3s ease, background-color 0.3s ease; /* Transición suave para la transformación y el color de fondo */
-            overflow: hidden; /* Asegura que el contenido no se salga de los bordes redondeados */
+            border: none;
+            border-radius: var(--card-radius);
+            box-shadow: 0 6px 15px -5px var(--shadow-color);
+            background-color: var(--card-bg);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            overflow: hidden;
         }
 
-        /* Estilo al pasar el ratón sobre las tarjetas de métricas */
         .card-custom:hover {
-            transform: translateY(-5px); /* Eleva la tarjeta ligeramente */
-            background-color: var(--card-hover); /* Usa la variable para el color de fondo al pasar el ratón */
+            transform: translateY(-10px);
+            background-color: var(--card-hover);
         }
 
-        /* Estilos para el cuerpo de las tarjetas de métricas */
         .card-body-custom {
-            padding: 20px; /* Espaciado interno */
+            padding: 30px;
         }
 
-        /* Estilos para los iconos dentro de las tarjetas */
         .card-icon {
-            font-size: 3rem; /* Tamaño del icono */
-            opacity: 0.7; /* Opacidad del icono */
+            font-size: 4rem;
+            opacity: 0.8;
         }
 
-        /* Estilos para los títulos de las métricas */
         .metric-title {
-            font-weight: 600; /* Texto en negrita */
+            font-weight: 700;
+            font-size: 1.2rem;
         }
 
-        /* Estilos para los valores de las métricas */
         .metric-value {
-            font-size: 2.5rem; /* Tamaño del texto */
-            font-weight: 700; /* Texto en negrita */
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
-        /* Botones en modo oscuro - Estilos específicos para los botones cuando el tema es oscuro */
         .btn-dashboard {
-            font-weight: 600; /* Texto en negrita */
-            padding: 12px 24px; /* Espaciado interno */
-            border-radius: 25px; /* Bordes redondeados */
-            transition: 0.3s; /* Transición suave */
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 30px;
+            transition: 0.3s;
+            font-size: 1rem;
         }
 
-        /* Estilo al pasar el ratón sobre los botones del dashboard */
         .btn-dashboard:hover {
-            opacity: 0.8; /* Reduce la opacidad al pasar el ratón */
+            opacity: 0.85;
+            transform: translateY(-2px);
         }
 
-        /* Estilo al enfocar los botones del dashboard */
-        .btn-dashboard:focus {
-            outline: none; /* Elimina el contorno al enfocar */
+        #stockChart {
+            width: 100% !important;
+            height: 450px !important;
         }
 
-        /* Botones específicos - Estilos para los botones con clases específicas en modo oscuro */
-        body[data-theme="dark"] .btn-success {
-            background-color: #238636; /* Color de fondo verde oscuro */
-            border-color: #2ea043; /* Color del borde verde */
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.05);
         }
-
-        body[data-theme="dark"] .btn-info {
-            background-color: #388bfd; /* Color de fondo azul claro */
-            border-color: #388bfd; /* Color del borde azul claro */
-        }
-
-        body[data-theme="dark"] .btn-warning {
-            background-color: #f78166; /* Color de fondo naranja claro */
-            border-color: #f78166; /* Color del borde naranja claro */
-        }
-
-        body[data-theme="dark"] .btn-danger {
-            background-color: #ff7b72; /* Color de fondo rojo claro */
-            border-color: #ff7b72; /* Color del borde rojo claro */
-        }
-
-        /* Estilo de Tabla - Contenedor responsivo para la tabla con estilos */
-        .table-responsive-custom {
-            border-radius: var(--card-radius); /* Usa la variable para el radio de las esquinas */
-            overflow: hidden; /* Asegura que la tabla no se salga de los bordes redondeados */
-            box-shadow: 0 4px 6px -1px var(--shadow-color); /* Usa la variable para la sombra */
-        }
-
-        /* Gráfico de Inventario - Contenedor para el gráfico */
-        .chart-container {
-            background: var(--card-bg); /* Usa la variable para el color de fondo */
-            border-radius: var(--card-radius); /* Usa la variable para el radio de las esquinas */
-            padding: 20px; /* Espaciado interno */
-            box-shadow: 0 4px 6px -1px var(--shadow-color); /* Usa la variable para la sombra */
-        }
-
-        /* Modificación de las alertas - Estilos para las insignias (badges) */
-        .badge {
-            padding: 0.5rem 1rem; /* Espaciado interno */
-            border-radius: 20px; /* Bordes muy redondeados */
-            font-weight: 500; /* Texto semi-negrita */
-        }
-
-        /* Estilo de tablas - Estilos específicos para las tablas en modo oscuro */
-        body[data-theme="dark"] table {
-            color: var(--text-color); /* Usa la variable para el color del texto */
-            background-color: var(--card-bg); /* Usa la variable para el color de fondo */
-            border-color: var(--table-border); /* Usa la variable para el color del borde */
-        }
-
-        body[data-theme="dark"] th,
-        body[data-theme="dark"] td {
-            border-top: 1px solid var(--table-border); /* Borde superior para las celdas */
-        }
-
-        /* Añadir hover - Estilo al pasar el ratón sobre las filas de la tabla en modo oscuro */
-        body[data-theme="dark"] tbody tr:hover {
-            background-color: rgba(255, 255, 255, 0.05); /* Fondo ligeramente claro al pasar el ratón */
-        }
-
-        body[data-theme="dark"] .table-hover tbody tr:hover td {
-            color: #58a6ff; /* Color del texto azul claro al pasar el ratón */
-        }
-
-        /* Elimina el borde inferior de la última fila de la tabla */
-        .table > :not(:last-child) > :last-child > * {
-            border-bottom: none;
-        }
-
     </style>
 </head>
 <body>
-    {% load humanize %} <div class="container py-4">
+    {% load humanize %}
+    <div class="container py-4">
         <div class="form-check form-switch ms-auto mb-3">
             <input class="form-check-input" type="checkbox" id="darkModeToggle">
             <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="fw-bold text-dark mb-0">
+            <h1 class="fw-bold text-whithe mb-0">
                 <i class="fas fa-warehouse me-2"></i>Control de Stock
             </h1>
         </div>
@@ -211,8 +125,10 @@
                     <div class="card-body-custom d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="metric-title text-white">Total Productos</h5>
-                            <p class="metric-value text-white">{{ total_productos }}</p> </div>
-                        <i class="fas fa-boxes card-icon text-white"></i> </div>
+                            <p class="metric-value text-white">{{ total_productos }}</p>
+                        </div>
+                        <i class="fas fa-boxes card-icon text-white"></i>
+                    </div>
                 </div>
             </div>
 
@@ -221,8 +137,10 @@
                     <div class="card-body-custom d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="metric-title text-white">Categorías</h5>
-                            <p class="metric-value text-white">{{ total_categorias }}</p> </div>
-                        <i class="fas fa-tags card-icon text-white"></i> </div>
+                            <p class="metric-value text-white">{{ total_categorias }}</p>
+                        </div>
+                        <i class="fas fa-tags card-icon text-white"></i>
+                    </div>
                 </div>
             </div>
 
@@ -231,8 +149,10 @@
                     <div class="card-body-custom d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="metric-title text-dark">Stock Crítico</h5>
-                            <p class="metric-value text-dark">{{ productos_bajo_stock.count }}</p> </div>
-                        <i class="fas fa-exclamation-triangle card-icon text-dark"></i> </div>
+                            <p class="metric-value text-dark">{{ productos_bajo_stock.count }}</p>
+                        </div>
+                        <i class="fas fa-exclamation-triangle card-icon text-dark"></i>
+                    </div>
                 </div>
             </div>
 
@@ -241,40 +161,18 @@
                     <div class="card-body-custom d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="metric-title text-white">Valor Inventario</h5>
-                            <p class="metric-value text-white">{{ valor_inventario|floatformat:2|intcomma }}€</p> </div>
-                        <i class="fas fa-coins card-icon text-white"></i> </div>
+                            <p class="metric-value text-white">{{ valor_inventario|floatformat:2|intcomma }}€</p>
+                        </div>
+                        <i class="fas fa-coins card-icon text-white"></i>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row g-4">
+            <!-- Últimos Movimientos -->
             <div class="col-lg-6 col-md-12">
-                <div class="chart-container">
-                    <h5 class="text-center">Distribución del Stock por Categoría</h5>
-                    <canvas id="stockChart"></canvas> </div>
-            </div>
-
-            <div class="col-lg-6 col-md-12 mt-4">
-                <h5>Alertas de Stock Bajo</h5>
-                {% if productos_bajo_stock %} <ul class="list-group">
-                        {% for producto in productos_bajo_stock %}
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>{{ producto.nombre }}</span>
-                                <span class="badge bg-danger">{{ producto.stock_actual }} unidades</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <div class="alert alert-success mt-2 mb-0" role="alert">
-                        No hay productos con stock bajo en este momento.
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="table-responsive-custom">
+                <div class="card-custom">
                     <h4 class="px-4 pt-4">Últimos Movimientos</h4>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
@@ -310,6 +208,39 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Alertas de Stock Bajo -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card-custom">
+                    <h4 class="px-4 pt-4">Alertas de Stock Bajo</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Stock Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for producto in productos_bajo_stock %}
+                                    <tr>
+                                        <td>{{ producto.nombre }}</td>
+                                        <td>
+                                            <span class="badge bg-danger">{{ producto.stock_actual }} unidades</span>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="2" class="text-center py-4 text-muted">
+                                            No hay productos con stock bajo en este momento.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="d-flex gap-3 mt-4">
@@ -332,44 +263,49 @@
     </div>
 
     <script>
-        // Gráfico de Stock - Configuración del gráfico de pastel para mostrar la distribución del stock por categoría
-        const ctx = document.getElementById('stockChart').getContext('2d'); // Obtiene el contexto 2D del elemento canvas con el ID 'stockChart'
-        new Chart(ctx, { // Crea una nueva instancia del gráfico de Chart.js
-            type: 'pie', // Define el tipo de gráfico como un gráfico de pastel
-            data: { // Define los datos del gráfico
-                labels: ['Categoría 1', 'Categoría 2', 'Categoría 3'],  // Reemplazar con las categorías reales obtenidas del backend
-                datasets: [{ // Define el conjunto de datos
-                    data: [300, 50, 100],  // Reemplazar con los valores de stock correspondientes a cada categoría
-                    backgroundColor: ['#2196F3', '#FF9800', '#4CAF50'], // Array de colores para cada segmento del pastel
-                    borderColor: '#fff', // Color del borde entre los segmentos
-                    borderWidth: 1 // Ancho del borde
-                }]
-            },
-            options: { // Define las opciones del gráfico
-                responsive: true // Hace que el gráfico sea responsive al tamaño del contenedor
-            }
-        });
+        // Gráfico de Stock
+        const ctx = document.getElementById('stockChart');
 
-        // Dark Mode Toggle - Código Javascript para controlar el modo oscuro
-        const toggle = document.getElementById('darkModeToggle'); // Obtiene el elemento checkbox con el ID 'darkModeToggle'
-        const currentTheme = localStorage.getItem('theme'); // Intenta obtener el tema guardado previamente en el almacenamiento local del navegador
-
-        // Si se encontró un tema guardado y es 'dark', aplica el modo oscuro al cargar la página
-        if (currentTheme === 'dark') {
-            document.body.setAttribute('data-theme', 'dark'); // Establece el atributo 'data-theme' en el elemento 'body' para activar los estilos del tema oscuro definidos en CSS
-            toggle.checked = true; // Marca el checkbox del modo oscuro como activado
+        if (ctx) {
+            const stockChart = new Chart(ctx.getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: [
+                        {% for categoria in categorias_nombres %}
+                            '{{ categoria }}',
+                        {% endfor %}
+                    ],
+                    datasets: [{
+                        data: [
+                            {% for stock in categorias_stock %}
+                                {{ stock }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: [
+                            {% for color in categorias_colores %}
+                                '{{ color }}',
+                            {% endfor %}
+                        ],
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
         }
 
-        // Agrega un 'listener' para el evento 'change' en el checkbox del modo oscuro
-        toggle.addEventListener('change', () => {
-            if (toggle.checked) {
-                // Si el checkbox se activa (el usuario quiere modo oscuro)
-                document.body.setAttribute('data-theme', 'dark'); // Establece el atributo 'data-theme'
-                localStorage.setItem('theme', 'dark'); // Guarda la preferencia 'dark' en el almacenamiento local
+        // Modo oscuro
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function () {
+            if (darkModeToggle.checked) {
+                document.body.setAttribute('data-theme', 'dark');
             } else {
-                // Si el checkbox no está marcado (el usuario quiere modo claro)
-                document.body.removeAttribute('data-theme'); // Remueve el atributo 'data-theme'
-                localStorage.setItem('theme', 'light'); // Guarda 'light' en el almacenamiento local
+                document.body.removeAttribute('data-theme');
             }
         });
     </script>

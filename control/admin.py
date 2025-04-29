@@ -48,19 +48,19 @@ class UbicacionAdmin(admin.ModelAdmin):
     descripcion_corta.short_description = 'Descripción'  # Define el nombre de la columna en la lista.
 
 
-@admin.register(Producto)  # Decorador para registrar la clase ProductoAdmin con el panel de administración.
+@admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
     """
     Clase para personalizar la interfaz de administración del modelo Producto.
     """
-    list_display = ('codigo', 'nombre', 'categoria', 'stock_display',
-                    'estado_display', 'precio_compra', 'precio_venta', 'activo')  # Campos a mostrar en la lista de productos.
-    list_filter = ('categoria', 'estado', 'activo')  # Permite filtrar la lista de productos por categoría, estado y si está activo.
-    search_fields = ('codigo', 'nombre', 'descripcion')  # Permite buscar productos por código, nombre o descripción.
-    readonly_fields = ('qr_preview', 'creado', 'actualizado')  # Campos que se mostrarán solo para lectura en el formulario de edición.
-    fieldsets = (  # Define la estructura del formulario de edición del producto, agrupando campos.
+    list_display = ('codigo_barras', 'nombre', 'categoria', 'stock_display',
+                    'estado_display', 'precio_compra', 'precio_venta', 'activo')
+    list_filter = ('categoria', 'estado', 'activo')
+    search_fields = ('codigo_barras', 'nombre', 'descripcion')  # Cambiado de 'codigo'
+    readonly_fields = ('qr_preview', 'creado', 'actualizado')
+    fieldsets = (
         ('Información Básica', {
-            'fields': ('codigo', 'codigo_barras', 'nombre', 'descripcion', 'activo')
+            'fields': ('codigo_barras', 'nombre', 'descripcion', 'activo')  # Eliminado 'codigo'
         }),
         ('Categorización', {
             'fields': ('categoria', 'ubicacion')
@@ -73,15 +73,11 @@ class ProductoAdmin(admin.ModelAdmin):
         }),
         ('Auditoría', {
             'fields': ('creado', 'actualizado'),
-            'classes': ('collapse',)  # Esta clase hace que este grupo de campos esté inicialmente colapsado.
+            'classes': ('collapse',)
         }),
     )
 
     def stock_display(self, obj):
-        """
-        Método para mostrar el stock actual y mínimo del producto con un color indicativo del estado.
-        Verde para OK, naranja para BAJO y rojo para AGOTADO.
-        """
         color = 'green'
         if obj.estado == 'BAJO':
             color = 'orange'
@@ -89,14 +85,11 @@ class ProductoAdmin(admin.ModelAdmin):
             color = 'red'
         return format_html(
             '<span style="color: {};">{}</span> / {}',
-            color, obj.stock_actual, obj.stock_minimo  # Muestra el stock actual y el mínimo.
+            color, obj.stock_actual, obj.stock_minimo
         )
-    stock_display.short_description = 'Stock (Actual/Mín)'  # Define el nombre de la columna en la lista.
+    stock_display.short_description = 'Stock (Actual/Mín)'
 
     def estado_display(self, obj):
-        """
-        Método para mostrar el estado del producto con un color asociado.
-        """
         colors = {
             'OK': 'green',
             'BAJO': 'orange',
@@ -104,23 +97,18 @@ class ProductoAdmin(admin.ModelAdmin):
         }
         return format_html(
             '<span style="color: {};">{}</span>',
-            colors[obj.estado], obj.get_estado_display()  # Obtiene la representación legible del estado.
+            colors[obj.estado], obj.get_estado_display()
         )
-    estado_display.short_description = 'Estado'  # Define el nombre de la columna en la lista.
+    estado_display.short_description = 'Estado'
 
     def qr_preview(self, obj):
-        """
-        Método para mostrar una vista previa del código QR del producto en el formulario de edición.
-        Si el producto tiene un código QR generado, muestra una imagen; de lo contrario, indica que no se ha generado.
-        """
         if obj.qr_code:
             return format_html(
                 '<img src="{}" style="max-height: 100px;" />',
-                obj.qr_code.url  # Obtiene la URL del archivo de la imagen del código QR.
+                obj.qr_code.url
             )
         return "No generado"
-    qr_preview.short_description = 'Código QR'  # Define el nombre del campo en el formulario de edición.
-
+    qr_preview.short_description = 'Código QR'
 
 @admin.register(MovimientoStock)  # Decorador para registrar la clase MovimientoStockAdmin con el panel de administración.
 class MovimientoStockAdmin(admin.ModelAdmin):

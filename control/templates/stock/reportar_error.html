@@ -47,10 +47,12 @@
             --table-header-bg: #2d2d2d;
             --table-border: #404040;
         }
+
         /* Estilo para texto específico en tema oscuro */
         body[data-theme="dark"] .dark-theme-text {
-        color: white;
-    }
+            color: white;
+        }
+
         /* Estilos generales del body */
         body {
             background-color: var(--background-color);
@@ -66,16 +68,19 @@
             transition: background-color 0.3s;
         }
 
-
         /* Estilos para las etiquetas de formulario */
         .form-label {
             color: var(--text-color);
         }
 
-
         /* Estilos para el contenedor del toggle de modo oscuro */
         .dark-mode-toggle {
             position: relative;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos de las alertas */
+        .alert {
             margin-bottom: 20px;
         }
     </style>
@@ -97,8 +102,8 @@
                     </div>
                     <div class="card-body">
                         <p class="dark-theme-text mb-4">
-    Si has encontrado un problema, por favor descríbelo aquí abajo. Lo revisaremos lo antes posible.
-</p>
+                            Si has encontrado un problema, por favor descríbelo aquí abajo. Lo revisaremos lo antes posible.
+                        </p>
 
                         <form method="post">
                             {% csrf_token %}
@@ -162,3 +167,5 @@
     </script>
 </body>
 </html>
+
+

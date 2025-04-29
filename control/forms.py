@@ -74,18 +74,24 @@ class MovimientoStockForm(forms.ModelForm):
 class ProductoForm(forms.ModelForm):
     """
     Formulario para crear o editar productos.
-    Excluye el campo 'estado', ya que su lógica puede manejarse de otra manera.
+    Incluye el campo 'estado' para manejar el estado del stock.
     """
     class Meta:
         model = Producto  # Asocia el formulario con el modelo Producto.
-        exclude = ['estado']  # Excluye el campo 'estado' del formulario.
+        fields = [ 'codigo_barras', 'nombre', 'categoria', 'ubicacion', 'descripcion',
+                  'precio_compra', 'precio_venta', 'stock_actual', 'stock_minimo', 'estado', 'imagen']  # Asegúrate de incluir 'estado'.
         error_messages = {
-            'codigo': {'required': 'Este campo es obligatorio.'},  # Define mensajes de error personalizados para el campo 'codigo'.
-            'nombre': {'required': 'Este campo es obligatorio.'},  # Define mensajes de error personalizados para el campo 'nombre'.
-            'precio_compra': {'required': 'Este campo es obligatorio.'},  # Define mensajes de error personalizados para el campo 'precio_compra'.
-            'precio_venta': {'required': 'Este campo es obligatorio.'},  # Define mensajes de error personalizados para el campo 'precio_venta'.
+            'codigo_barras': {'required': 'Este campo es obligatorio.'},
+            'nombre': {'required': 'Este campo es obligatorio.'},  # Mensaje de error personalizado.
+            'precio_compra': {'required': 'Este campo es obligatorio.'},  # Mensaje de error personalizado.
+            'precio_venta': {'required': 'Este campo es obligatorio.'},  # Mensaje de error personalizado.
         }
 
+    def clean_codigo(self):
+        codigo = self.cleaned_data['codigo']
+        if Producto.objects.filter(codigo=codigo).exists():
+            raise forms.ValidationError("Este código ya está en uso.")
+        return codigo
 
 class ReporteErrorForm(forms.Form):
     """

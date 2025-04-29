@@ -54,8 +54,7 @@ class Producto(models.Model):
         ('AGOTADO', 'Stock Agotado'),
     )
 
-    codigo = models.CharField(max_length=50, unique=True, verbose_name='Código')  # Código único del producto.
-    codigo_barras = models.CharField(max_length=100, blank=True, null=True) # Permite almacenar el código de barras
+    codigo_barras = models.CharField(max_length=100, unique=True, verbose_name='Código de Barras') # Permite almacenar el código de barras
     nombre = models.CharField(max_length=200)  # Nombre del producto.
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)  # Categoría del producto.
     ubicacion = models.ForeignKey(Ubicacion, on_delete=models.SET_NULL, null=True, blank=True)  # Ubicación del producto
@@ -75,13 +74,13 @@ class Producto(models.Model):
         ordering = ['nombre']  # Ordena los productos alfabéticamente por nombre.
         indexes = [  # Define índices para mejorar el rendimiento de las consultas.
             models.Index(fields=['nombre']),
-            models.Index(fields=['codigo']),
+            models.Index(fields=['codigo_barras']),
             models.Index(fields=['categoria']),
             models.Index(fields=['estado']),
         ]
 
     def __str__(self):
-        return f"{self.nombre} ({self.codigo})"  # Representación en string del producto.
+        return f"{self.nombre} ({self.codigo_barras})"  # Representación en string del producto.
 
     def generate_qrcode(self):
         """
@@ -97,20 +96,22 @@ class Producto(models.Model):
             box_size=10,  # Tamaño de cada "celda" del código QR.
             border=4,  # Ancho del borde alrededor del código QR.
         )
-        qr.add_data(f"PROD:{self.id}:{self.codigo}")  # Codifica la información del producto en el código QR.
+        qr.add_data(f"PROD:{self.id}:{self.codigo_barras}")  # Codifica la información del producto en el código QR.
         qr.make(fit=True)  # Ajusta el tamaño del código QR a la información.
 
         img = qr.make_image(fill_color="black", back_color="white")  # Crea la imagen del código QR.
 
         buffer = BytesIO()  # Crea un buffer en memoria para guardar la imagen.
         img.save(buffer)  # Guarda la imagen en el buffer.
-        filename = f'qr_{self.codigo}.png'  # Genera un nombre de archivo para el código QR.
+        filename = f'qr_{self.codigo_barras}.png'  # Genera un nombre de archivo para el código QR.
         self.qr_code.save(filename, File(buffer), save=False)  # Guarda la imagen en el campo qr_code del modelo.
 
     def save(self, *args, **kwargs):
         """
         Sobrescribe el método save para generar el código QR antes de guardar el producto.
         """
+        if not self.codigo_barras:
+            self.codigo_barras = self.codigo
         # Primero guarda el objeto para que se le asigne un id
         super().save(*args, **kwargs)
 
