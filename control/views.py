@@ -1,8 +1,9 @@
 from django.core.mail import send_mail
-from django.shortcuts import redirect  # Importa la función redirect para redireccionar a otras URLs.
+from django.shortcuts import redirect, render  # Importa la función redirect para redireccionar a otras URLs.
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView  # Importa vistas genéricas de Django.
 from django.urls import reverse_lazy  # Importa reverse_lazy para generar URLs de forma diferida.
 from django.contrib import messages  # Importa el sistema de mensajes de Django para mostrar notificaciones al usuario.
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from .forms import ProductoForm, ReporteErrorForm  # Importa los formularios de la aplicación.
@@ -82,12 +83,18 @@ class ProductoListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
     Vista para listar todos los productos. Requiere que el usuario esté logueado.
     Permite filtrar y paginar los productos.
     """
-    permission_required = 'stock.view_producto'
+    permission_required = 'control.view_producto'
     model = Producto
     template_name = 'stock/producto_list.html'  # Plantilla para mostrar la lista de productos.
     context_object_name = 'productos'  # Nombre de la variable en el contexto de la plantilla.
     paginate_by = 20  # Cantidad de productos por página.
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'ventas']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
     def get_queryset(self):
         """
         Obtiene el conjunto de productos a mostrar, aplicando filtros si es necesario.
@@ -127,6 +134,12 @@ class ProductoDetailView(LoginRequiredMixin,PermissionRequiredMixin, DetailView)
     """
     Vista para mostrar los detalles de un producto específico. Requiere login.
     """
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'ventas']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
     permission_required = 'stock.change_producto'
     model = Producto
     template_name = 'stock/producto_detail.html'  # Plantilla para los detalles del producto.
@@ -145,7 +158,13 @@ class ProductoCreateView(LoginRequiredMixin,PermissionRequiredMixin, CreateView)
     """
     Vista para crear un nuevo producto. Requiere login y utiliza un formulario.
     """
-    permission_required = 'stock.create_producto'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'ventas']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.add_producto'
     model = Producto
     form_class = ProductoForm
     template_name = 'stock/producto_create.html'
@@ -182,7 +201,13 @@ class ProductoUpdateView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView)
     """
     Vista para editar un producto existente. Requiere login y utiliza un formulario.
     """
-    permission_required = 'stock.update_producto'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'ventas']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.change_producto'
     model = Producto
     form_class = ProductoForm  # Formulario para la edición del producto.
     template_name = 'stock/producto_create.html'  # Utiliza la misma plantilla que la creación.
@@ -281,7 +306,13 @@ class ProductoDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView)
     """
     Vista para eliminar un producto. Requiere login y muestra una confirmación.
     """
-    permission_required = 'stock.delete_producto'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'ventas']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.delete_producto'
     model = Producto
     template_name = 'stock/producto_delete.html'  # Plantilla para confirmar la eliminación.
     success_url = reverse_lazy('stock:producto_list')  # URL a la que se redirige tras la eliminación.
@@ -298,7 +329,13 @@ class CategoriaDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView
     """
     Vista para eliminar una categoría. Requiere login y muestra una confirmación.
     """
-    permission_required = 'stock.delete_categoria'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'gestor']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.delete_categoria'
     model = Categoria
     template_name = 'stock/categoria_delete.html'  # Plantilla para confirmar la eliminación.
     success_url = reverse_lazy('stock:categoria_list')  # URL a la que se redirige tras la eliminación.
@@ -316,7 +353,13 @@ class CategoriaListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Vista para listar todas las categorías. No requiere login.
     """
-    permission_required = 'stock.view_categoria'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'gestor']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.view_categoria'
     model = Categoria
     template_name = 'stock/categoria_list.html'  # Plantilla para mostrar la lista de categorías.
     context_object_name = 'categorias'  # Nombre de la variable de las categorías en el contexto.
@@ -326,7 +369,13 @@ class CategoriaCreateView(CreateView,PermissionRequiredMixin,LoginRequiredMixin)
     """
     Vista para crear una nueva categoría. No requiere login.
     """
-    permission_required = 'stock.create_categoria'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'gestor']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.add_categoria'
     model = Categoria
     fields = ['nombre', 'color']  # Campos del formulario para crear una categoría.
     template_name = 'stock/categoria_create.html'  # Plantilla para la creación de categorías.
@@ -337,7 +386,13 @@ class CategoriaUpdateView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView
     """
     Vista para editar una categoría existente. Requiere login.
     """
-    permission_required = 'stock.update_categoria'
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.rol not in ['admin', 'gestor']:
+            return render(request, 'stock/403.html',
+                          {'message': "No tienes permisos para acceder a esta página."},
+                          status=403)
+        return super().dispatch(request, *args, **kwargs)
+    permission_required = 'control.change_categoria'
     model = Categoria
     fields = ['nombre', 'color']  # Campos del formulario para editar una categoría.
     template_name = 'stock/categoria_edit.html'  # Plantilla para la edición de categorías.
@@ -374,5 +429,3 @@ class ProductoAPIView(APIView):
             })
         except Producto.DoesNotExist:
             return Response({'exists': False})
-
-

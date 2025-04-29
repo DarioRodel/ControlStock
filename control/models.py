@@ -186,7 +186,7 @@ class MovimientoStock(models.Model):
 class UsuarioPersonalizado(AbstractUser):
     ROLES = (
         ('admin', 'Administrador'),
-        ('almacen', 'Operario de Almacén'),
+        ('gestor', 'Gestor de categorias'),
         ('ventas', 'Equipo de Ventas'),
     )
 

@@ -141,7 +141,7 @@ LANGUAGE_CODE = 'es'
 LOGIN_URL = '/cuentas/login/'
 LOGIN_REDIRECT_URL = 'stock:dashboard'
 LOGOUT_REDIRECT_URL = '/'
-
+HANDLER403 = 'tu_app.views.custom_permission_denied_view'
 # Permisos por defecto para cada rol
 GROUPS_PERMISSIONS = {
     'Administradores': [
