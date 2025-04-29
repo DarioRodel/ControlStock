@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LogoutView
 from django.urls import path  # Importa la función path para definir patrones de URL.
 from . import views  # Importa el módulo de vistas del directorio actual (app 'stock').
 from .views import ProductoListView, ReporteErrorView, CategoriaCreateView, \
@@ -28,6 +29,7 @@ urlpatterns = [
     path('categoria/<int:pk>/editar/', CategoriaUpdateView.as_view(), name='categoria_edit'),
     # URL para editar una categoría existente.
     path('api/productos/', ProductoAPIView.as_view(), name='producto-api'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
 
 # Solo se sirve contenido multimedia si DEBUG está activado en la configuración.

@@ -1,7 +1,10 @@
+from django.core.mail import send_mail
 from django.shortcuts import redirect  # Importa la función redirect para redireccionar a otras URLs.
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView  # Importa vistas genéricas de Django.
 from django.urls import reverse_lazy  # Importa reverse_lazy para generar URLs de forma diferida.
 from django.contrib import messages  # Importa el sistema de mensajes de Django para mostrar notificaciones al usuario.
+from rest_framework.response import Response
+
 from .forms import ProductoForm, ReporteErrorForm  # Importa los formularios de la aplicación.
 from django.views.generic.edit import FormView  # Importa la vista genérica para manejar formularios.
 from django.db.models import Q
@@ -10,7 +13,7 @@ from .models import Producto, MovimientoStock, Categoria
 from django.db.models import Sum, F
 from django.views.generic import TemplateView
 from rest_framework.views import APIView
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'stock/dashboard.html'
 
@@ -74,11 +77,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 ['gerente@miempresa.com'],
             )
 # Vistas para Productos
-class ProductoListView(LoginRequiredMixin, ListView):
+class ProductoListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
     """
     Vista para listar todos los productos. Requiere que el usuario esté logueado.
     Permite filtrar y paginar los productos.
     """
+    permission_required = 'stock.view_producto'
     model = Producto
     template_name = 'stock/producto_list.html'  # Plantilla para mostrar la lista de productos.
     context_object_name = 'productos'  # Nombre de la variable en el contexto de la plantilla.
@@ -119,10 +123,11 @@ class ProductoListView(LoginRequiredMixin, ListView):
         return context
 
 
-class ProductoDetailView(LoginRequiredMixin, DetailView):
+class ProductoDetailView(LoginRequiredMixin,PermissionRequiredMixin, DetailView):
     """
     Vista para mostrar los detalles de un producto específico. Requiere login.
     """
+    permission_required = 'stock.change_producto'
     model = Producto
     template_name = 'stock/producto_detail.html'  # Plantilla para los detalles del producto.
     context_object_name = 'producto'  # Nombre de la variable del producto en el contexto.
@@ -136,10 +141,11 @@ class ProductoDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ProductoCreateView(LoginRequiredMixin, CreateView):
+class ProductoCreateView(LoginRequiredMixin,PermissionRequiredMixin, CreateView):
     """
     Vista para crear un nuevo producto. Requiere login y utiliza un formulario.
     """
+    permission_required = 'stock.create_producto'
     model = Producto
     form_class = ProductoForm
     template_name = 'stock/producto_create.html'
@@ -172,10 +178,11 @@ class ProductoCreateView(LoginRequiredMixin, CreateView):
         context['fields'] = ['codigo', 'nombre', 'precio_compra', 'precio_venta', 'codigo_barras']
         return context
 
-class ProductoUpdateView(LoginRequiredMixin, UpdateView):
+class ProductoUpdateView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
     """
     Vista para editar un producto existente. Requiere login y utiliza un formulario.
     """
+    permission_required = 'stock.update_producto'
     model = Producto
     form_class = ProductoForm  # Formulario para la edición del producto.
     template_name = 'stock/producto_create.html'  # Utiliza la misma plantilla que la creación.
@@ -270,10 +277,11 @@ class ReporteErrorView(FormView):
         return super().form_invalid(form)
 
 
-class ProductoDeleteView(LoginRequiredMixin, DeleteView):
+class ProductoDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView):
     """
     Vista para eliminar un producto. Requiere login y muestra una confirmación.
     """
+    permission_required = 'stock.delete_producto'
     model = Producto
     template_name = 'stock/producto_delete.html'  # Plantilla para confirmar la eliminación.
     success_url = reverse_lazy('stock:producto_list')  # URL a la que se redirige tras la eliminación.
@@ -286,10 +294,11 @@ class ProductoDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
+class CategoriaDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteView):
     """
     Vista para eliminar una categoría. Requiere login y muestra una confirmación.
     """
+    permission_required = 'stock.delete_categoria'
     model = Categoria
     template_name = 'stock/categoria_delete.html'  # Plantilla para confirmar la eliminación.
     success_url = reverse_lazy('stock:categoria_list')  # URL a la que se redirige tras la eliminación.
@@ -303,29 +312,32 @@ class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class CategoriaListView(ListView):
+class CategoriaListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Vista para listar todas las categorías. No requiere login.
     """
+    permission_required = 'stock.view_categoria'
     model = Categoria
     template_name = 'stock/categoria_list.html'  # Plantilla para mostrar la lista de categorías.
     context_object_name = 'categorias'  # Nombre de la variable de las categorías en el contexto.
 
 
-class CategoriaCreateView(CreateView):
+class CategoriaCreateView(CreateView,PermissionRequiredMixin,LoginRequiredMixin):
     """
     Vista para crear una nueva categoría. No requiere login.
     """
+    permission_required = 'stock.create_categoria'
     model = Categoria
     fields = ['nombre', 'color']  # Campos del formulario para crear una categoría.
     template_name = 'stock/categoria_create.html'  # Plantilla para la creación de categorías.
     success_url = reverse_lazy('stock:categoria_list')  # URL a la que se redirige tras la creación.
 
 
-class CategoriaUpdateView(LoginRequiredMixin, UpdateView):
+class CategoriaUpdateView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
     """
     Vista para editar una categoría existente. Requiere login.
     """
+    permission_required = 'stock.update_categoria'
     model = Categoria
     fields = ['nombre', 'color']  # Campos del formulario para editar una categoría.
     template_name = 'stock/categoria_edit.html'  # Plantilla para la edición de categorías.

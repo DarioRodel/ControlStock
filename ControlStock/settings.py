@@ -136,3 +136,22 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'tucorreo@gmail.com'
 EMAIL_HOST_PASSWORD = 'tucontraseña'
+AUTH_USER_MODEL = 'control.UsuarioPersonalizado'
+LANGUAGE_CODE = 'es'
+LOGIN_URL = '/cuentas/login/'
+LOGIN_REDIRECT_URL = 'stock:dashboard'
+LOGOUT_REDIRECT_URL = '/'
+
+# Permisos por defecto para cada rol
+GROUPS_PERMISSIONS = {
+    'Administradores': [
+        'add_producto', 'change_producto', 'delete_producto',
+        'puede_ver_reportes', 'puede_gestionar_usuarios'
+    ],
+    'Operarios Almacén': [
+        'add_producto', 'change_producto', 'view_producto'
+    ],
+    'Equipo Ventas': [
+        'view_producto'
+    ],
+}

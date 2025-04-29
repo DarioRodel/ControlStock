@@ -103,370 +103,377 @@
         .table-hover tbody tr:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
+
         /* Añadir estas reglas al existente CSS */
 
-    /* Ajustes generales de responsive */
-    @media (max-width: 1399.98px) {
-        .metric-value {
-            font-size: 2.2rem;
+        /* Ajustes generales de responsive */
+        @media (max-width: 1399.98px) {
+            .metric-value {
+                font-size: 2.2rem;
+            }
+
+            .btn-dashboard {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
         }
 
-        .btn-dashboard {
-            padding: 10px 20px;
-            font-size: 0.95rem;
-        }
-    }
+        @media (max-width: 1199.98px) {
+            .card-icon {
+                font-size: 3.5rem;
+            }
 
-    @media (max-width: 1199.98px) {
-        .card-icon {
-            font-size: 3.5rem;
-        }
-
-        .metric-value {
-            font-size: 2rem;
-        }
-    }
-
-    @media (max-width: 991.98px) {
-        .container {
-            padding-left: 20px;
-            padding-right: 20px;
+            .metric-value {
+                font-size: 2rem;
+            }
         }
 
-        .card-custom {
-            margin-bottom: 1.5rem;
+        @media (max-width: 991.98px) {
+            .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .card-custom {
+                margin-bottom: 1.5rem;
+            }
+
+            .d-flex.gap-3 {
+                flex-wrap: wrap;
+                gap: 1rem !important;
+            }
+
+            .btn-dashboard {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
-        .d-flex.gap-3 {
-            flex-wrap: wrap;
-            gap: 1rem !important;
+        @media (max-width: 767.98px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .metric-title {
+                font-size: 1.1rem;
+            }
+
+            .metric-value {
+                font-size: 1.8rem;
+            }
+
+            .card-icon {
+                font-size: 3rem;
+            }
+
+            .table th, .table td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .badge {
+                font-size: 0.8rem;
+            }
         }
 
-        .btn-dashboard {
-            width: 100%;
-            justify-content: center;
-        }
-    }
+        @media (max-width: 575.98px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
 
-    @media (max-width: 767.98px) {
-        h1 {
-            font-size: 1.8rem;
-        }
+            h1 {
+                font-size: 1.6rem;
+            }
 
-        .metric-title {
-            font-size: 1.1rem;
-        }
+            .metric-title {
+                font-size: 1rem;
+            }
 
-        .metric-value {
-            font-size: 1.8rem;
-        }
+            .metric-value {
+                font-size: 1.5rem;
+            }
 
-        .card-icon {
-            font-size: 3rem;
-        }
+            .card-icon {
+                font-size: 2.5rem;
+            }
 
-        .table th, .table td {
-            padding: 0.75rem;
-            font-size: 0.9rem;
-        }
+            .card-body-custom {
+                padding: 20px;
+            }
 
-        .badge {
-            font-size: 0.8rem;
-        }
-    }
+            .table th, .table td {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
 
-    @media (max-width: 575.98px) {
-        .container {
-            padding-left: 15px;
-            padding-right: 15px;
+            .form-check-label {
+                font-size: 0.9rem;
+            }
         }
 
-        h1 {
-            font-size: 1.6rem;
+        /* Mejoras específicas para móviles */
+        @media (max-width: 480px) {
+            .d-flex.justify-content-between.align-items-center.mb-4 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .form-check.form-switch {
+                margin-left: 0;
+                margin-right: auto;
+            }
+
+            .btn-dashboard i {
+                margin-right: 5px;
+            }
         }
 
-        .metric-title {
-            font-size: 1rem;
+        /* Optimización de tablas */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .metric-value {
-            font-size: 1.5rem;
+        .table {
+            min-width: 600px;
         }
 
-        .card-icon {
-            font-size: 2.5rem;
+        /* Ajustes de botones en móvil */
+        @media (max-width: 767.98px) {
+            .btn-dashboard {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+
+            .btn-dashboard i {
+                font-size: 0.9rem;
+            }
         }
 
-        .card-body-custom {
-            padding: 20px;
+        /* Mejora de hover en móvil */
+        @media (hover: none) {
+            .card-custom:hover {
+                transform: none;
+            }
+
+            .btn-dashboard:hover {
+                opacity: 1;
+                transform: none;
+            }
         }
-
-        .table th, .table td {
-            padding: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .form-check-label {
-            font-size: 0.9rem;
-        }
-    }
-
-    /* Mejoras específicas para móviles */
-    @media (max-width: 480px) {
-        .d-flex.justify-content-between.align-items-center.mb-4 {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .form-check.form-switch {
-            margin-left: 0;
-            margin-right: auto;
-        }
-
-        .btn-dashboard i {
-            margin-right: 5px;
-        }
-    }
-
-    /* Optimización de tablas */
-    .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .table {
-        min-width: 600px;
-    }
-
-    /* Ajustes de botones en móvil */
-    @media (max-width: 767.98px) {
-        .btn-dashboard {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-        }
-
-        .btn-dashboard i {
-            font-size: 0.9rem;
-        }
-    }
-
-    /* Mejora de hover en móvil */
-    @media (hover: none) {
-        .card-custom:hover {
-            transform: none;
-        }
-
-        .btn-dashboard:hover {
-            opacity: 1;
-            transform: none;
-        }
-    }
     </style>
 </head>
 <body>
-    {% load humanize %}
-    <div class="container py-4">
-        <div class="form-check form-switch ms-auto mb-3">
-            <input class="form-check-input" type="checkbox" id="darkModeToggle">
-            <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
-        </div>
+{% load humanize %}
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+</form>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="fw-bold text-whithe mb-0">
-                <i class="fas fa-warehouse me-2"></i>Control de Stock
-            </h1>
-        </div>
 
-        <div class="row g-4 mb-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="card-custom" style="background-color: #4CAF50;">
-                    <div class="card-body-custom d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="metric-title text-white">Total Productos</h5>
-                            <p class="metric-value text-white">{{ total_productos }}</p>
-                        </div>
-                        <i class="fas fa-boxes card-icon text-white"></i>
+<div class="container py-4">
+    <div class="form-check form-switch ms-auto mb-3">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-whithe mb-0">
+            <i class="fas fa-warehouse me-2"></i>Control de Stock
+        </h1>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card-custom" style="background-color: #4CAF50;">
+                <div class="card-body-custom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="metric-title text-white">Total Productos</h5>
+                        <p class="metric-value text-white">{{ total_productos }}</p>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="card-custom" style="background-color: #2196F3;">
-                    <div class="card-body-custom d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="metric-title text-white">Categorías</h5>
-                            <p class="metric-value text-white">{{ total_categorias }}</p>
-                        </div>
-                        <i class="fas fa-tags card-icon text-white"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="card-custom" style="background-color: #FF9800;">
-                    <div class="card-body-custom d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="metric-title text-dark">Stock Crítico</h5>
-                            <p class="metric-value text-dark">{{ productos_bajo_stock.count }}</p>
-                        </div>
-                        <i class="fas fa-exclamation-triangle card-icon text-dark"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="card-custom" style="background-color: #f44336;">
-                    <div class="card-body-custom d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="metric-title text-white">Valor Inventario</h5>
-                            <p class="metric-value text-white">{{ valor_inventario|floatformat:2|intcomma }}€</p>
-                        </div>
-                        <i class="fas fa-coins card-icon text-white"></i>
-                    </div>
+                    <i class="fas fa-boxes card-icon text-white"></i>
                 </div>
             </div>
         </div>
 
-        <div class="row g-4">
-            <!-- Últimos Movimientos -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card-custom">
-                    <h4 class="px-4 pt-4">Últimos Movimientos</h4>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Tipo</th>
-                                    <th>Cantidad</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for movimiento in movimientos %}
-                                    <tr>
-                                        <td>{{ movimiento.producto.nombre|truncatechars:15 }}</td>
-                                        <td>
-                                            <span class="badge bg-{{ movimiento.tipo|lower }} text-black">
-                                                {{ movimiento.get_tipo_display }}
-                                            </span>
-                                        </td>
-                                        <td>{{ movimiento.cantidad }}</td>
-                                        <td>{{ movimiento.fecha|date:"d/m H:i" }}</td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="4" class="text-center py-4 text-muted">
-                                            No hay movimientos recientes
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+        <div class="col-lg-3 col-md-6">
+            <div class="card-custom" style="background-color: #2196F3;">
+                <div class="card-body-custom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="metric-title text-white">Categorías</h5>
+                        <p class="metric-value text-white">{{ total_categorias }}</p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Alertas de Stock Bajo -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card-custom">
-                    <h4 class="px-4 pt-4">Alertas de Stock Bajo</h4>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Stock Actual</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for producto in productos_bajo_stock %}
-                                    <tr>
-                                        <td>{{ producto.nombre }}</td>
-                                        <td>
-                                            <span class="badge bg-danger">{{ producto.stock_actual }} unidades</span>
-                                        </td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="2" class="text-center py-4 text-muted">
-                                            No hay productos con stock bajo en este momento.
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                    <i class="fas fa-tags card-icon text-white"></i>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex gap-3 mt-4">
-            <a href="{% url 'stock:producto_list' %}" class="btn btn-outline-secondary btn-dashboard">
-                <i class="fas fa-box me-2"></i>Ver Productos
-            </a>
-            <a href="{% url 'stock:producto_create' %}" class="btn btn-success btn-dashboard">
-                <i class="fas fa-plus-circle me-2"></i>Nuevo Producto
-            </a>
-            <a href="{% url 'stock:categoria_list' %}" class="btn btn-info btn-dashboard">
-                <i class="fas fa-tags me-2"></i>Ver Categorías
-            </a>
-            <a href="{% url 'stock:categoria_create' %}" class="btn btn-warning btn-dashboard">
-                <i class="fas fa-tags me-2"></i>Añadir Categorías
-            </a>
-            <a href="{% url 'stock:reportar_error' %}" class="btn btn-danger btn-dashboard">
-                <i class="fas fa-file-export me-2"></i>Reporte
-            </a>
+        <div class="col-lg-3 col-md-6">
+            <div class="card-custom" style="background-color: #FF9800;">
+                <div class="card-body-custom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="metric-title text-dark">Stock Crítico</h5>
+                        <p class="metric-value text-dark">{{ productos_bajo_stock.count }}</p>
+                    </div>
+                    <i class="fas fa-exclamation-triangle card-icon text-dark"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card-custom" style="background-color: #f44336;">
+                <div class="card-body-custom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="metric-title text-white">Valor Inventario</h5>
+                        <p class="metric-value text-white">{{ valor_inventario|floatformat:2|intcomma }}€</p>
+                    </div>
+                    <i class="fas fa-coins card-icon text-white"></i>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Gráfico de Stock
-        const ctx = document.getElementById('stockChart');
+    <div class="row g-4">
+        <!-- Últimos Movimientos -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card-custom">
+                <h4 class="px-4 pt-4">Últimos Movimientos</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for movimiento in movimientos %}
+                            <tr>
+                                <td>{{ movimiento.producto.nombre|truncatechars:15 }}</td>
+                                <td>
+                                            <span class="badge bg-{{ movimiento.tipo|lower }} text-black">
+                                                {{ movimiento.get_tipo_display }}
+                                            </span>
+                                </td>
+                                <td>{{ movimiento.cantidad }}</td>
+                                <td>{{ movimiento.fecha|date:"d/m H:i" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">
+                                    No hay movimientos recientes
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-        if (ctx) {
-            const stockChart = new Chart(ctx.getContext('2d'), {
-                type: 'pie',
-                data: {
-                    labels: [
-                        {% for categoria in categorias_nombres %}
-                            '{{ categoria }}',
+        <!-- Alertas de Stock Bajo -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card-custom">
+                <h4 class="px-4 pt-4">Alertas de Stock Bajo</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock Actual</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for producto in productos_bajo_stock %}
+                            <tr>
+                                <td>{{ producto.nombre }}</td>
+                                <td>
+                                    <span class="badge bg-danger">{{ producto.stock_actual }} unidades</span>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center py-4 text-muted">
+                                    No hay productos con stock bajo en este momento.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-3 mt-4">
+        <a href="{% url 'stock:producto_list' %}" class="btn btn-outline-secondary btn-dashboard">
+            <i class="fas fa-box me-2"></i>Ver Productos
+        </a>
+        <a href="{% url 'stock:producto_create' %}" class="btn btn-success btn-dashboard">
+            <i class="fas fa-plus-circle me-2"></i>Nuevo Producto
+        </a>
+        <a href="{% url 'stock:categoria_list' %}" class="btn btn-info btn-dashboard">
+            <i class="fas fa-tags me-2"></i>Ver Categorías
+        </a>
+        <a href="{% url 'stock:categoria_create' %}" class="btn btn-warning btn-dashboard">
+            <i class="fas fa-tags me-2"></i>Añadir Categorías
+        </a>
+        <a href="{% url 'stock:reportar_error' %}" class="btn btn-danger btn-dashboard">
+            <i class="fas fa-file-export me-2"></i>Reporte
+        </a>
+    </div>
+</div>
+
+<script>
+    // Gráfico de Stock
+    const ctx = document.getElementById('stockChart');
+
+    if (ctx) {
+        const stockChart = new Chart(ctx.getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: [
+                    {% for categoria in categorias_nombres %}
+                        '{{ categoria }}',
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for stock in categorias_stock %}
+                            {{ stock }},
                         {% endfor %}
                     ],
-                    datasets: [{
-                        data: [
-                            {% for stock in categorias_stock %}
-                                {{ stock }},
-                            {% endfor %}
-                        ],
-                        backgroundColor: [
-                            {% for color in categorias_colores %}
-                                '{{ color }}',
-                            {% endfor %}
-                        ],
-                    }],
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
+                    backgroundColor: [
+                        {% for color in categorias_colores %}
+                            '{{ color }}',
+                        {% endfor %}
+                    ],
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
                     },
                 },
-            });
-        }
-
-        // Modo oscuro
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('change', function () {
-            if (darkModeToggle.checked) {
-                document.body.setAttribute('data-theme', 'dark');
-            } else {
-                document.body.removeAttribute('data-theme');
-            }
+            },
         });
-    </script>
+    }
+
+    // Modo oscuro
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    darkModeToggle.addEventListener('change', function () {
+        if (darkModeToggle.checked) {
+            document.body.setAttribute('data-theme', 'dark');
+        } else {
+            document.body.removeAttribute('data-theme');
+        }
+    });
+</script>
 </body>
 </html>

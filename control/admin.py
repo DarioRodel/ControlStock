@@ -1,8 +1,27 @@
-from django.contrib import admin  # Importa el módulo de administración de Django.
+
 from django.utils.html import format_html  # Importa la función para generar HTML seguro.
 from .models import Categoria, Ubicacion, Producto, MovimientoStock  # Importa los modelos definidos en el mismo directorio (app).
 
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import UsuarioPersonalizado
 
+
+class UsuarioAdmin(UserAdmin):
+    list_display = ('username', 'email', 'get_full_name', 'rol', 'is_active')
+    list_filter = ('rol', 'is_staff', 'is_superuser')
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Información Personal', {'fields': ('first_name', 'last_name', 'email', 'telefono')}),
+        ('Permisos', {
+            'fields': ('rol', 'is_active', 'is_staff', 'is_superuser',
+                       'groups', 'user_permissions'),
+        }),
+        ('Fechas importantes', {'fields': ('last_login', 'date_joined')}),
+    )
+
+
+admin.site.register(UsuarioPersonalizado, UsuarioAdmin)
 @admin.register(Categoria)  # Decorador para registrar la clase CategoriaAdmin con el panel de administración.
 class CategoriaAdmin(admin.ModelAdmin):
     """

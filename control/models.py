@@ -1,12 +1,14 @@
 from typing import Any  # Importa Any para tipado genérico.
 
 from django.db import models  # Importa el módulo de modelos de Django.
-from django.contrib.auth.models import User  # Importa el modelo User para la autenticación de usuarios.
+from django.contrib.auth.models import User, AbstractUser, \
+    Group  # Importa el modelo User para la autenticación de usuarios.
 from django.urls import reverse  # Importa la función reverse para generar URLs a partir de nombres de vistas.
 from django.core.validators import MinValueValidator  # Importa el validador para asegurar valores mínimos.
 import qrcode  # Importa la librería qrcode para generar códigos QR.
 from io import BytesIO  # Importa BytesIO para manejar datos binarios en memoria.
 from django.core.files import File  # Importa File para manejar archivos en Django.
+from django.conf import settings
 
 
 class Categoria(models.Model):
@@ -154,7 +156,7 @@ class MovimientoStock(models.Model):
                                          null=True, blank=True, related_name='movimientos_salida')  # Ubicación de origen (para salidas y traspasos).
     ubicacion_destino = models.ForeignKey(Ubicacion, on_delete=models.SET_NULL,
                                           null=True, blank=True, related_name='movimientos_entrada')  # Ubicación de destino (para entradas y traspasos).
-    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Usuario que realizó el movimiento.
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Usuario que realizó el movimiento.
     observaciones = models.TextField(blank=True)  # Observaciones sobre el movimiento.
     fecha = models.DateTimeField(auto_now_add=True)  # Fecha y hora del movimiento.
 
@@ -179,3 +181,26 @@ class MovimientoStock(models.Model):
             self.producto.save()  # Guarda el producto con el stock actualizado.
 
         super().save(*args, **kwargs)  # Llama al método save de la clase padre para guardar el movimiento.
+
+
+class UsuarioPersonalizado(AbstractUser):
+    ROLES = (
+        ('admin', 'Administrador'),
+        ('almacen', 'Operario de Almacén'),
+        ('ventas', 'Equipo de Ventas'),
+    )
+
+    rol = models.CharField(max_length=20, choices=ROLES, default='almacen')
+    telefono = models.CharField(max_length=20, blank=True)
+    departamento = models.CharField(max_length=50, blank=True)
+
+    class Meta:
+        permissions = [
+            ("puede_ver_reportes", "Puede ver reportes avanzados"),
+            ("puede_gestionar_usuarios", "Puede gestionar usuarios"),
+            ("puede_eliminar_productos", "Puede eliminar productos"),
+        ]
+
+    def __str__(self):
+        return f"{self.get_full_name()} ({self.rol})"
+
