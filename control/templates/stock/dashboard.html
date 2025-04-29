@@ -103,6 +103,165 @@
         .table-hover tbody tr:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
+        /* Añadir estas reglas al existente CSS */
+
+    /* Ajustes generales de responsive */
+    @media (max-width: 1399.98px) {
+        .metric-value {
+            font-size: 2.2rem;
+        }
+
+        .btn-dashboard {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 1199.98px) {
+        .card-icon {
+            font-size: 3.5rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .container {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .card-custom {
+            margin-bottom: 1.5rem;
+        }
+
+        .d-flex.gap-3 {
+            flex-wrap: wrap;
+            gap: 1rem !important;
+        }
+
+        .btn-dashboard {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        .metric-title {
+            font-size: 1.1rem;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+        }
+
+        .table th, .table td {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+        }
+
+        .metric-title {
+            font-size: 1rem;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+        }
+
+        .card-body-custom {
+            padding: 20px;
+        }
+
+        .table th, .table td {
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Mejoras específicas para móviles */
+    @media (max-width: 480px) {
+        .d-flex.justify-content-between.align-items-center.mb-4 {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .form-check.form-switch {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        .btn-dashboard i {
+            margin-right: 5px;
+        }
+    }
+
+    /* Optimización de tablas */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        min-width: 600px;
+    }
+
+    /* Ajustes de botones en móvil */
+    @media (max-width: 767.98px) {
+        .btn-dashboard {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+        }
+
+        .btn-dashboard i {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Mejora de hover en móvil */
+    @media (hover: none) {
+        .card-custom:hover {
+            transform: none;
+        }
+
+        .btn-dashboard:hover {
+            opacity: 1;
+            transform: none;
+        }
+    }
     </style>
 </head>
 <body>
