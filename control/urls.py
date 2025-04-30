@@ -1,8 +1,8 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path  # Importa la función path para definir patrones de URL.
 from . import views  # Importa el módulo de vistas del directorio actual (app 'stock').
-from .views import ProductoListView, ReporteErrorView, CategoriaCreateView, \
-    CategoriaUpdateView, ProductoAPIView  # Importa vistas específicas desde el módulo .views.
+from .views import ProductoListView, ReporteErrorView, CategoriaCreateView, ProductoAPIView, CategoriaUpdateView
+  # Importa vistas específicas desde el módulo .views.
 from django.conf import settings  # Importa la configuración de Django.
 from django.conf.urls.static import static  # Importa la función static para servir archivos estáticos en desarrollo.
 
@@ -30,6 +30,7 @@ urlpatterns = [
     # URL para editar una categoría existente.
     path('api/productos/', ProductoAPIView.as_view(), name='producto-api'),
     path('logout/', LogoutView.as_view(), name='logout'),
+
 ]
 
 # Solo se sirve contenido multimedia si DEBUG está activado en la configuración.

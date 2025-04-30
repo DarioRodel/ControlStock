@@ -186,13 +186,14 @@ class MovimientoStock(models.Model):
 class UsuarioPersonalizado(AbstractUser):
     ROLES = (
         ('admin', 'Administrador'),
-        ('gestor', 'Gestor de categorias'),
+        ('gestor', 'Gestor de categorías'),
         ('ventas', 'Equipo de Ventas'),
     )
 
     rol = models.CharField(max_length=20, choices=ROLES, default='almacen')
     telefono = models.CharField(max_length=20, blank=True)
     departamento = models.CharField(max_length=50, blank=True)
+
 
     class Meta:
         permissions = [
@@ -203,4 +204,3 @@ class UsuarioPersonalizado(AbstractUser):
 
     def __str__(self):
         return f"{self.get_full_name()} ({self.rol})"
-
