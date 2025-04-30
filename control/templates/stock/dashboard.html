@@ -64,31 +64,31 @@
         }
 
         .card-body-custom {
-            padding: 30px;
+            padding: 20px;
         }
 
         .card-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             opacity: 0.8;
         }
 
         .metric-title {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .metric-value {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         .btn-dashboard {
             font-weight: 600;
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-radius: 30px;
             transition: 0.3s;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .btn-dashboard:hover {
@@ -98,52 +98,54 @@
 
         #stockChart {
             width: 100% !important;
-            height: 450px !important;
+            height: 200px !important;
+        }
+
+        #estadoChart {
+            width: 100% !important;
+            height: 200px !important;
         }
 
         .table-hover tbody tr:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        /* Añadir estas reglas al existente CSS */
+        .table th, .table td {
+            padding: 0.6rem;
+            font-size: 0.85rem;
+        }
 
-        /* Ajustes generales de responsive */
         @media (max-width: 1399.98px) {
             .metric-value {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
-
             .btn-dashboard {
-                padding: 10px 20px;
-                font-size: 0.95rem;
+                padding: 8px 16px;
+                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 1199.98px) {
             .card-icon {
-                font-size: 3.5rem;
+                font-size: 2.5rem;
             }
-
             .metric-value {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
         }
 
         @media (max-width: 991.98px) {
             .container {
-                padding-left: 20px;
-                padding-right: 20px;
+                padding-left: 15px;
+                padding-right: 15px;
             }
-
             .card-custom {
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
             }
-
             .d-flex.gap-3 {
                 flex-wrap: wrap;
-                gap: 1rem !important;
+                gap: 0.75rem !important;
             }
-
             .btn-dashboard {
                 width: 100%;
                 justify-content: center;
@@ -152,113 +154,97 @@
 
         @media (max-width: 767.98px) {
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
             }
-
             .metric-title {
-                font-size: 1.1rem;
-            }
-
-            .metric-value {
-                font-size: 1.8rem;
-            }
-
-            .card-icon {
-                font-size: 3rem;
-            }
-
-            .table th, .table td {
-                padding: 0.75rem;
                 font-size: 0.9rem;
             }
-
-            .badge {
+            .metric-value {
+                font-size: 1.4rem;
+            }
+            .card-icon {
+                font-size: 2rem;
+            }
+            .table th, .table td {
+                padding: 0.5rem;
                 font-size: 0.8rem;
+            }
+            .badge {
+                font-size: 0.75rem;
             }
         }
 
         @media (max-width: 575.98px) {
             .container {
-                padding-left: 15px;
-                padding-right: 15px;
+                padding-left: 10px;
+                padding-right: 10px;
             }
-
             h1 {
-                font-size: 1.6rem;
+                font-size: 1.2rem;
             }
-
             .metric-title {
-                font-size: 1rem;
+                font-size: 0.8rem;
             }
-
             .metric-value {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
-
             .card-icon {
-                font-size: 2.5rem;
+                font-size: 1.8rem;
             }
-
+            .card-body-custom canvas {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
             .card-body-custom {
-                padding: 20px;
+                padding: 15px;
             }
-
             .table th, .table td {
-                padding: 0.5rem;
-                font-size: 0.85rem;
+                padding: 0.4rem;
+                font-size: 0.75rem;
             }
-
             .form-check-label {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
         }
 
-        /* Mejoras específicas para móviles */
         @media (max-width: 480px) {
-            .d-flex.justify-content-between.align-items-center.mb-4 {
+            .d-flex.justify-content-between.align-items-center.mb-3 {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 0.75rem;
             }
-
             .form-check.form-switch {
                 margin-left: 0;
                 margin-right: auto;
             }
-
             .btn-dashboard i {
-                margin-right: 5px;
+                margin-right: 3px;
             }
         }
 
-        /* Optimización de tablas */
         .table-responsive {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
 
         .table {
-            min-width: 600px;
+            min-width: 500px;
         }
 
-        /* Ajustes de botones en móvil */
         @media (max-width: 767.98px) {
             .btn-dashboard {
-                font-size: 0.9rem;
-                padding: 8px 16px;
+                font-size: 0.8rem;
+                padding: 6px 12px;
             }
-
             .btn-dashboard i {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
         }
 
-        /* Mejora de hover en móvil */
         @media (hover: none) {
             .card-custom:hover {
                 transform: none;
             }
-
             .btn-dashboard:hover {
                 opacity: 1;
                 transform: none;
@@ -268,25 +254,24 @@
 </head>
 <body>
 {% load humanize %}
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-</form>
+<div class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <form method="POST" action="{% url 'logout' %}" class="me-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        </form>
+        <h1 class="fw-bold text-whithe mb-0">
+            <i class="fas fa-warehouse me-2"></i>Control de Stock
+        </h1>
+        <div></div>
+    </div>
 
-
-<div class="container py-4">
-    <div class="form-check form-switch ms-auto mb-3">
+    <div class="form-check form-switch ms-auto mb-2">
         <input class="form-check-input" type="checkbox" id="darkModeToggle">
         <label class="form-check-label" for="darkModeToggle">Modo oscuro</label>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold text-whithe mb-0">
-            <i class="fas fa-warehouse me-2"></i>Control de Stock
-        </h1>
-    </div>
-
-    <div class="row g-4 mb-4">
+    <div class="row g-3 mb-3">
         <div class="col-lg-3 col-md-6">
             <div class="card-custom" style="background-color: #4CAF50;">
                 <div class="card-body-custom d-flex justify-content-between align-items-center">
@@ -336,10 +321,10 @@
         </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-3">
         <div class="col-lg-6 col-md-12">
             <div class="card-custom">
-                <h4 class="px-4 pt-4">Últimos Movimientos</h4>
+                <h4 class="px-3 pt-3">Últimos Movimientos</h4>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
@@ -364,7 +349,7 @@
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="4" class="text-center py-4 text-muted">
+                                <td colspan="4" class="text-center py-2 text-muted">
                                     No hay movimientos recientes
                                 </td>
                             </tr>
@@ -377,7 +362,7 @@
 
         <div class="col-lg-6 col-md-12">
             <div class="card-custom">
-                <h4 class="px-4 pt-4">Alertas de Stock Bajo</h4>
+                <h4 class="px-3 pt-3">Alertas de Stock Bajo</h4>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
@@ -396,7 +381,7 @@
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="2" class="text-center py-4 text-muted">
+                                <td colspan="2" class="text-center py-2 text-muted">
                                     No hay productos con stock bajo en este momento.
                                 </td>
                             </tr>
@@ -408,96 +393,111 @@
         </div>
     </div>
 
-    <div class="card-custom mt-4">
-    <h4 class="px-4 pt-4">Distribución de Stock por Categoría</h4>
-    <div class="card-body-custom">
-        <canvas id="stockChart" style="width: 100%; height: 400px;"></canvas> <!-- Ajusta el tamaño de manera más fija -->
+    <div class="row g-3 mt-3">
+        <div class="col-md-6">
+            <div class="card-custom h-100">
+                <h4 class="px-3 pt-3">Stock por Categoría</h4>
+                <div class="card-body-custom">
+                    <canvas id="stockChart" style="width: 100% !important; height: 200px !important;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom h-100">
+                <h4 class="px-3 pt-3">Estado del Stock</h4>
+                <div class="card-body-custom">
+                    <canvas id="estadoChart" style="width: 100% !important; height: 200px !important;"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div id="main-nav" class="d-flex gap-3 mt-4">
+
+    <div id="main-nav" class="d-flex gap-2 mt-3">
         <a id="product-list" href="{% url 'stock:producto_list' %}" class="btn btn-outline-secondary btn-dashboard">
-            <i class="fas fa-box me-2"></i>Ver Productos
+            <i class="fas fa-box me-1"></i>Ver Productos
         </a>
         <a href="{% url 'stock:producto_create' %}" class="btn btn-success btn-dashboard">
-            <i class="fas fa-plus-circle me-2"></i>Nuevo Producto
+            <i class="fas fa-plus-circle me-1"></i>Nuevo Producto
         </a>
         <a href="{% url 'stock:categoria_list' %}" class="btn btn-info btn-dashboard">
-            <i class="fas fa-tags me-2"></i>Ver Categorías
+            <i class="fas fa-tags me-1"></i>Ver Categorías
         </a>
         <a href="{% url 'stock:categoria_create' %}" class="btn btn-warning btn-dashboard">
-            <i class="fas fa-tags me-2"></i>Añadir Categorías
+            <i class="fas fa-tags me-1"></i>Añadir Categorías
         </a>
         <a href="{% url 'stock:reportar_error' %}" class="btn btn-danger btn-dashboard">
-            <i class="fas fa-file-export me-2"></i>Reporte
+            <i class="fas fa-file-export me-1"></i>Reporte
         </a>
     </div>
 </div>
 
 <script>
-// Gráfico de Stock
-    const ctx = document.getElementById('stockChart');
-
-    if (ctx) {
-        // Configurar el tamaño de manera adecuada
-        const stockChart = new Chart(ctx.getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: [
-                    {% for categoria in categorias_nombres %}
-                        '{{ categoria }}',
-                    {% endfor %}
-                ],
-                datasets: [{
-                    data: [
-                        {% for stock in categorias_stock %}
-                            {{ stock }},
-                        {% endfor %}
-                    ],
-                    backgroundColor: [
-                        {% for color in categorias_colores %}
-                            '{{ color }}',
-                        {% endfor %}
-                    ],
-                    borderColor: '#fff', // Borde blanco alrededor de cada sección
-                    borderWidth: 2,  // Grosor del borde
-                }],
+    // Gráfico de Stock
+    const stockChartCtx = document.getElementById('stockChart').getContext('2d');
+    new Chart(stockChartCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ categorias_nombres|safe }},
+            datasets: [{
+                label: 'Stock por Categoría',
+                data: {{ categorias_stock|safe }},
+                backgroundColor: {{ categorias_colores|safe }},
+            }]
+        },
+        optionsoptions: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {display: false}
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,  // Permite que el gráfico se ajuste al tamaño del contenedor
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 14,  // Ajustar el tamaño de la fuente de la leyenda
-                            },
-                        },
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw + ' unidades';  // Mejorar la legibilidad del tooltip
-                            },
-                        },
-                    },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
                 },
-                cutout: '50%',  // Convertir el gráfico en estilo donut
-                animation: {
-                    animateScale: true,
-                    animateRotate: true,
-                },
-            },
-        });
+                x: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    });
 
-        // Ajuste para alta resolución en pantallas Retina
-        const ratio = window.devicePixelRatio || 1;
-        ctx.height = ctx.offsetHeight * ratio;
-        ctx.width = ctx.offsetWidth * ratio;
+    const estadoChartCtx = document.getElementById('estadoChart').getContext('2d');
+    new Chart(estadoChartCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ stock_estados_labels|safe }},
+            datasets: [{
+                label: 'Estado del Stock',
+                data: {{ stock_estados_data|safe }},
+                backgroundColor: {{ stock_estados_colors|safe }},
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    });
 
-        // Redibujar el gráfico con la resolución ajustada
-        stockChart.update();
-    }
     // Modo oscuro
     const darkModeToggle = document.getElementById('darkModeToggle');
     darkModeToggle.addEventListener('change', function () {

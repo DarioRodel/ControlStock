@@ -71,7 +71,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'categorias_stock': categorias_stock,
             'categorias_colores': categorias_colores,
         })
+        estados = dict(Producto.ESTADO_STOCK)
+        estado_counts = {
+            'OK': productos.filter(estado='OK').count(),
+            'BAJO': productos.filter(estado='BAJO').count(),
+            'AGOTADO': productos.filter(estado='AGOTADO').count(),
+        }
 
+        context.update({
+            'stock_estados_labels': [estados['OK'], estados['BAJO'], estados['AGOTADO']],
+            'stock_estados_data': [estado_counts['OK'], estado_counts['BAJO'], estado_counts['AGOTADO']],
+            'stock_estados_colors': ['#4CAF50', '#FF9800', '#F44336'],  # verde, naranja, rojo
+        })
         return context
 
     def _enviar_notificacion_stock_bajo(self):
@@ -83,6 +94,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 'admin@miempresa.com',
                 ['gerente@miempresa.com'],
             )
+
 # Vistas para Productos
 class ProductoListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
     """
