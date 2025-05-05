@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        /* :root define variables de CSS para los colores y estilos de tu tema principal. */
         :root {
             --primary-color: #4CAF50;
             --secondary-color: #2196F3;
@@ -30,6 +31,7 @@
             --badge-danger: #dc3545;
         }
 
+        /* body[data-theme="dark"] redefine las variables para el modo oscuro. */
         body[data-theme="dark"] {
             --background-color: #0d1117;
             --card-bg: #161b22;
@@ -42,6 +44,7 @@
             --danger-color: #ff7b72;
         }
 
+        /* Estilos generales del body para el fondo, la fuente y la transición del tema. */
         body {
             background-color: var(--background-color);
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -49,6 +52,7 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
+        /* Estilos para las tarjetas que contienen la información. */
         .card-custom {
             border: none;
             border-radius: var(--card-radius);
@@ -63,26 +67,31 @@
             background-color: var(--card-hover);
         }
 
+        /* Estilos para el cuerpo dentro de las tarjetas. Reduje el padding para que ocupe menos espacio. */
         .card-body-custom {
             padding: 20px;
         }
 
+        /* Estilos para los iconos dentro de las tarjetas de métricas. */
         .card-icon {
             font-size: 3rem;
             opacity: 0.8;
         }
 
+        /* Estilos para los títulos de las métricas (ej: Total Productos). */
         .metric-title {
             font-weight: 700;
             font-size: 1rem;
         }
 
+        /* Estilos para los valores de las métricas (ej: el número total de productos). */
         .metric-value {
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: 1px;
         }
 
+        /* Estilos para los botones de navegación. Reduje el padding y el tamaño de la fuente. */
         .btn-dashboard {
             font-weight: 600;
             padding: 8px 16px;
@@ -96,6 +105,7 @@
             transform: translateY(-2px);
         }
 
+        /* Estilos específicos para los contenedores de los gráficos. Reduje la altura para que sean más pequeños. */
         #stockChart {
             width: 100% !important;
             height: 200px !important;
@@ -106,15 +116,19 @@
             height: 200px !important;
         }
 
+        /* Estilo para resaltar las filas de la tabla al pasar el ratón. */
         .table-hover tbody tr:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
 
+        /* Estilos para las celdas de la tabla (header y datos). Reduje el padding y el tamaño de la fuente. */
         .table th, .table td {
             padding: 0.6rem;
             font-size: 0.85rem;
         }
 
+        /* Media queries para hacer el diseño responsive en diferentes tamaños de pantalla.
+           Estos ajustan los tamaños de la fuente, los paddings y los márgenes para que se vea bien en móviles, tablets, etc. */
         @media (max-width: 1399.98px) {
             .metric-value {
                 font-size: 1.8rem;
@@ -222,6 +236,7 @@
             }
         }
 
+        /* Estilos para hacer las tablas scrollables horizontalmente en pantallas pequeñas. */
         .table-responsive {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -231,6 +246,7 @@
             min-width: 500px;
         }
 
+        /* Estilos para los botones en pantallas pequeñas. */
         @media (max-width: 767.98px) {
             .btn-dashboard {
                 font-size: 0.8rem;
@@ -241,6 +257,7 @@
             }
         }
 
+        /* Evita el efecto hover en dispositivos táctiles. */
         @media (hover: none) {
             .card-custom:hover {
                 transform: none;
@@ -433,37 +450,37 @@
 </div>
 
 <script>
-    // Gráfico de Stock
+    // Script para el gráfico de Stock por Categoría usando Chart.js.
     const stockChartCtx = document.getElementById('stockChart').getContext('2d');
     new Chart(stockChartCtx, {
-        type: 'bar',
+        type: 'bar', // Tipo de gráfico de barras.
         data: {
-            labels: {{ categorias_nombres|safe }},
+            labels: {{ categorias_nombres|safe }}, // Etiquetas para el eje X (nombres de las categorías).
             datasets: [{
                 label: 'Stock por Categoría',
-                data: {{ categorias_stock|safe }},
-                backgroundColor: {{ categorias_colores|safe }},
+                data: {{ categorias_stock|safe }}, // Datos para las barras (cantidades de stock por categoría).
+                backgroundColor: {{ categorias_colores|safe }}, // Colores de las barras.
             }]
         },
-        optionsoptions: {
-            responsive: true,
-            maintainAspectRatio: false,
+        options: {
+            responsive: true, // Hace el gráfico responsive.
+            maintainAspectRatio: false, // Permite ajustar la altura manualmente con CSS.
             plugins: {
-                legend: {display: false}
+                legend: {display: false} // Oculta la leyenda del gráfico.
             },
             scales: {
                 y: {
-                    beginAtZero: true,
+                    beginAtZero: true, // El eje Y empieza en cero.
                     ticks: {
                         font: {
-                            size: 10
+                            size: 10 // Tamaño de la fuente de las etiquetas del eje Y.
                         }
                     }
                 },
                 x: {
                     ticks: {
                         font: {
-                            size: 10
+                            size: 10 // Tamaño de la fuente de las etiquetas del eje X.
                         }
                     }
                 }
@@ -471,15 +488,16 @@
         }
     });
 
+    // Script para el gráfico de Estado del Stock (doughnut chart).
     const estadoChartCtx = document.getElementById('estadoChart').getContext('2d');
     new Chart(estadoChartCtx, {
-        type: 'doughnut',
+        type: 'doughnut', // Tipo de gráfico de dona.
         data: {
-            labels: {{ stock_estados_labels|safe }},
+            labels: {{ stock_estados_labels|safe }}, // Etiquetas para las secciones de la dona (ej: 'Normal', 'Bajo', 'Agotado').
             datasets: [{
                 label: 'Estado del Stock',
-                data: {{ stock_estados_data|safe }},
-                backgroundColor: {{ stock_estados_colors|safe }},
+                data: {{ stock_estados_data|safe }}, // Datos para el tamaño de cada sección.
+                backgroundColor: {{ stock_estados_colors|safe }}, // Colores de las secciones.
             }]
         },
         options: {
@@ -487,10 +505,10 @@
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'bottom',
+                    position: 'bottom', // Posición de la leyenda.
                     labels: {
                         font: {
-                            size: 10
+                            size: 10 // Tamaño de la fuente de la leyenda.
                         }
                     }
                 }
@@ -498,12 +516,14 @@
         }
     });
 
-    // Modo oscuro
+    // Script para el modo oscuro.
     const darkModeToggle = document.getElementById('darkModeToggle');
     darkModeToggle.addEventListener('change', function () {
         if (darkModeToggle.checked) {
+            // Si el checkbox está marcado, añade el atributo 'data-theme' con el valor 'dark' al body.
             document.body.setAttribute('data-theme', 'dark');
         } else {
+            // Si no está marcado, remueve el atributo 'data-theme' del body, volviendo al tema por defecto.
             document.body.removeAttribute('data-theme');
         }
     });
