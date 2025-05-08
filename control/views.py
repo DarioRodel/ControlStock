@@ -171,6 +171,9 @@ class ProductoDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
         context = super().get_context_data(**kwargs)
         context['movimientos'] = self.object.movimientos.all()[:10]  # Obtiene los últimos 10 movimientos relacionados.
         return context
+    def form_invalid(self, form):
+        messages.error(self.request, 'Por favor corrige los errores en el formulario.')
+        return super().form_invalid(form)
 
 
 class ProductoCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
